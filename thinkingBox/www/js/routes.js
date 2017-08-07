@@ -79,5 +79,19 @@ angular.module('app.routes', [])
         controller: 'chessResultCtrl'
       })
 
+      // Init 2048
+      $stateProvider.state('2048SelectLevel', {
+        url: '/page2048SelectLevel',
+        templateUrl: 'templates/2048/2048SelectLevel.html',
+        controller: '2048SelectLevelCtrl'
+      })
+
+      $stateProvider.state('2048Board', {
+        url: '/page2048Board',
+        templateUrl: 'templates/2048/2048Board.html',
+        controller: '2048BoardCtrl'
+      })
+      // End 2048
+
     $urlRouterProvider.otherwise('/page1')
   });

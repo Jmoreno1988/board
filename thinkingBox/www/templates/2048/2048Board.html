@@ -1,0 +1,36 @@
+<ion-view hide-back-button="false" title="2048" id="2048Board" cache-view="false">
+    <style>
+        .grey{
+            color: #666;
+        }
+
+        .cell{
+            width: 64px;
+            height: 64px;
+            float: left;
+            text-align:center;
+            line-height:64px;
+            border: 1px solid lightgray;
+            font-size: 18px;
+        }
+
+        .cell>span{
+            display:inline-block;
+		vertical-align:middle;
+		line-height:normal;
+        }
+
+        .noFloat {
+            clear:both;
+        }
+    </style>
+
+    <ion-nav-buttons side="right" class="has-header">
+        <button class="button icon ion-android-settings" ng-click="openSettings()"></button>
+    </ion-nav-buttons>
+
+    <ion-content padding="true" class="has-header">
+        <div id="board"></div>
+    </ion-content>
+
+</ion-view>

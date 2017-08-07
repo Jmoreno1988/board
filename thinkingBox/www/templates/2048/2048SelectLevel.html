@@ -1,0 +1,19 @@
+<ion-view hide-back-button="false" title="2048" id="2048SelectLevel" cache-view="false">
+    <style>
+        .grey{
+            color: #666;
+        }
+    </style>
+
+    <ion-nav-buttons side="right" class="has-header">
+        <button class="button icon ion-android-settings" ng-click="openSettings()"></button>
+    </ion-nav-buttons>
+
+    <ion-content padding="true" class="has-header">
+        <button>3X3</button>
+        <button ui-sref="2048Board">4X4</button>
+        <button>5X5</button>
+        <button>6X6</button>
+    </ion-content>
+
+</ion-view>
