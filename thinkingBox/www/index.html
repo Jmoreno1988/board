@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <script src="js/cfg.js"></script>
+    <script src="js/traductions/dictionary.js"></script>
+    <script src="js/class/Util.js"></script>
+    <script src="js/class/Translator.js"></script>
+    <script src="js/class/Timer.js"></script>
+    <script src="js/class/Countdown.js"></script>
+    <script src="js/class/GameCal.js"></script>
+    <script src="js/class/GameSudoku.js"></script>
+    <script src="js/class/GameChess.js"></script>
+    <script src="js/class/TrophyRoom.js"></script>
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+    <script src="lib/chartist/dist/chartist.min.js"></script>
+    <!--<script src="lib/jquery-3.2.0.min.js"></script>-->
+    <script src="lib/jqueryOld.js"></script>
+    <script src="lib/sudoku.js"></script>
+    <script src="lib/chess.js"></script>
+    <script src="lib/Garbochess-JS/js/garbochess.js"></script>
+    <script src="lib/chessboard-js/js/chessboard.min.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="lib/ng-cordova.min.js"></script>
+    <script src="cordova.js"></script>
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+    <link rel="stylesheet" href="lib/chartist/dist/chartist.min.css">
+    <link href="css/ionic.app.css" rel="stylesheet">
+    <link href="lib/chessboard-js/css/chessboard.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        .platform-ios .manual-ios-statusbar-padding {
+            padding-top: 20px;
+        }
+        
+        .manual-remove-top-padding {
+            padding-top: 0px;
+        }
+        
+        .manual-remove-top-padding .scroll {
+            padding-top: 0px !important;
+        }
+        
+        ion-list.manual-list-fullwidth div.list,
+        .list.card.manual-card-fullwidth {
+            margin-left: -10px;
+            margin-right: -10px;
+        }
+        
+        ion-list.manual-list-fullwidth div.list > .item,
+        .list.card.manual-card-fullwidth > .item {
+            border-radius: 0px;
+            border-left: 0px;
+            border-right: 0px;
+        }
+        
+        .show-list-numbers-and-dots ul {
+            list-style-type: disc;
+            padding-left: 40px;
+        }
+        
+        .show-list-numbers-and-dots ol {
+            list-style-type: decimal;
+            padding-left: 40px;
+        }
+    </style>
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/controllers/menuCtrl.js"></script>
+    <script src="js/controllers/sudokuSelectLevelCtrl.js"></script>
+    <script src="js/controllers/resultCtrl.js"></script>
+    <script src="js/controllers/mainMenuCtrl.js"></script>
+    <script src="js/controllers/selectLevelCtrl.js"></script>
+    <script src="js/controllers/sudokuBoardCtrl.js"></script>
+    <script src="js/controllers/canvasCtrl.js"></script>
+    <script src="js/controllers/menuRecordsCalCtrl.js"></script>
+    <script src="js/controllers/chessSelectLevelCtrl.js"></script>
+    <script src="js/controllers/chessBoardCtrl.js"></script>
+    <script src="js/controllers/sudokuResultCtrl.js"></script>
+    <script src="js/controllers/chessResultCtrl.js"></script>
+    <script src="js/routes.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/services.js"></script>
+
+    <!-- Only required for Tab projects w/ pages in multiple tabs 
+    <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
+    -->
+
+    <!-- Publicidad -->
+    <script src="js/ads.js"></script>
+
+</head>
+
+<body ng-app="app" animation="slide-left-right-ios7">
+    <div>
+        <ion-side-menus enable-menu-with-back-views="false" data-componentid="side-menu21">
+            <ion-side-menu-content>
+                <ion-nav-bar class="bar-balanced">
+                    <ion-nav-back-button></ion-nav-back-button>
+                    <!-- <ion-nav-buttons side="left">
+            <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
+          </ion-nav-buttons>-->
+                </ion-nav-bar>
+                <ion-nav-view></ion-nav-view>
+            </ion-side-menu-content>
+            <ion-side-menu side="left" id="side-menu21">
+                <ion-header-bar class="bar-stable">
+                    <div class="title">Options</div>
+                </ion-header-bar>
+                <ion-content ng-controller="menuCtrl" padding="false" class="side-menu-left has-header ">
+                    <ion-list>
+                        <!--<ion-toggle toggle-class="toggle-balanced">Sound</ion-toggle>-->
+                        <label class="item item-input item-select">
+                            <div class="input-label"> {{menuCtrl_language}} </div>
+                            <select ng-model="selectLanguage" ng-change="updateLanguage()">
+                                <option ng-repeat="language in languagesList">{{language.title}}</option>
+                            </select>
+                        </label>
+                        <ion-toggle ng-model="isVibration" ng-checked="isVibration" ng-change="updateIsVibration()" toggle-class="toggle-balanced">
+                        {{menuCtrl_vibration}} </ion-toggle>
+                        <!--
+                        <ion-item ng-click="goTo('removeAds')">
+                            {{menuCtrl_removeADS}}
+                        </ion-item>
+                        -->
+                        <ion-item ng-click="goTo('otherApps')">
+                            {{menuCtrl_moreGames}}
+                        </ion-item>
+                        <!--
+                        <ion-item ng-click="modalResetApp()">
+                            {{menuCtrl_resetApp}}
+                        </ion-item>
+                        -->
+                    </ion-list>
+                </ion-content>
+            </ion-side-menu>
+        </ion-side-menus>
+    </div>
+
+    <script>
+       function shareWith(socialNetwork) {
+           var urlShareTwitter = "http://twitter.com/?status=";
+           var urlShareFacebook = "http://www.facebook.com/sharer/sharer.php?u=";
+           var urlWhastApp = "whatsapp://send?text=";
+           var msg = "https://play.google.com/store/apps/details?id=com.ionicframework.thinkingbox148390"
+
+           switch(socialNetwork) {
+                case 1: // Twitter
+                    var url = urlShareTwitter + encodeURIComponent(msg);
+                    window.open(url, "");
+                    break;
+                
+                case 2: // Facebook 
+                    var url = urlShareFacebook + encodeURIComponent(msg);
+                    window.open(url, "");
+                    break;
+
+                case 3: // WhatsApp 
+                    var url = urlWhastApp + encodeURIComponent(msg);
+                    window.open(url, "");
+                    break;
+           }
+       }
+    </script>
+</body>
+
+</html>

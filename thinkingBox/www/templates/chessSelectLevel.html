@@ -1,0 +1,46 @@
+<ion-view hide-back-button="false" title="Chess" id="chessSelectLevel" cache-view="false">
+    <style>
+        .grey{
+            color: #666;
+        }
+    </style>
+
+    <ion-nav-buttons side="right" class="has-header">
+        <button class="button icon ion-android-settings" ng-click="openSettings()"></button>
+    </ion-nav-buttons>
+
+    <ion-content padding="true" class="has-header">
+        <div class="list">
+            <a class="item item-icon-left item-icon-right">
+                <span ng-click="selectLevel('easy')">
+                    <i class="icon ion-tshirt"></i>
+                    <h2>{{chessSelectLevelCtrl_easy}}</h2>
+                    <!--<p>{{chessSelectLevelCtrl_wins}}: {{easyWins}} :: {{chessSelectLevelCtrl_defeats}}: {{easyDefeats}}</p>-->
+                    <p>{{chessSelectLevelCtrl_moves}}: {{easyMoves}} :: {{chessSelectLevelCtrl_time}}: {{easyTime}}</p>
+                </span>
+                <i class="icon ion-trash-b grey" ng-click="confirmRemoveBoard('easy')"></i>
+            </a>
+
+            <a class="item item-icon-left item-icon-right">
+                <span ng-click="selectLevel('normal')">
+                    <i class="icon ion-ribbon-a"></i>
+                    <h2>{{chessSelectLevelCtrl_normal}}</h2>
+                    <!--<p>{{chessSelectLevelCtrl_wins}}: {{normalWins}} :: {{chessSelectLevelCtrl_defeats}}: {{normalDefeats}}</p>-->
+                    <p>{{chessSelectLevelCtrl_moves}}: {{normalMoves}} :: {{chessSelectLevelCtrl_time}}: {{normalTime}}</p>
+                </span>
+                <i class="icon ion-trash-b grey" ng-click="confirmRemoveBoard('normal')"></i>
+            </a>
+
+            <a class="item item-icon-left item-icon-right">
+                <span ng-click="selectLevel('hard')">
+                    <i class="icon ion-university"></i>
+                    <h2>{{chessSelectLevelCtrl_hard}}</h2>
+                    <!--<p>{{chessSelectLevelCtrl_wins}}: {{hardWins}} :: {{chessSelectLevelCtrl_defeats}}: {{hardDefeats}}</p>-->
+                    <p>{{chessSelectLevelCtrl_moves}}: {{hardMoves}} :: {{chessSelectLevelCtrl_time}}: {{hardTime}}</p>
+                </span>
+                <i class="icon ion-trash-b grey" ng-click="confirmRemoveBoard('hard')"></i>
+            </a>
+        </div>
+    </ion-content>
+
+</ion-view>

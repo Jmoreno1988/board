@@ -1,0 +1,64 @@
+<ion-view title="Calcu" id="page10" cache-view="false">
+  <style>
+    .floatL {
+      float: left;
+    }
+    
+    .floatR {
+      float: right;
+    }
+
+    .red {
+      color: tomato;
+    }
+    
+    #content1 {
+      width: 100%;
+    }
+    
+    #content2 {
+      width: 100%;
+      height: 20%;
+      min-height: 150px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      flex-direction: column;
+      border-bottom: 1px solid #D8D8D8;
+      border-top: 1px solid #D8D8D8;
+    }
+    
+    #content3 {
+      width: 100%;
+      padding-top: 30px; 
+    }
+  </style>
+  <ion-nav-buttons side="right" class="has-header">
+    <button class="button icon ion-android-refresh" ng-click="reset()"></button>
+  </ion-nav-buttons>
+  <ion-content padding="true" class="has-header">
+    <h1 id="canvas-heading3" style="color:#000000;text-align:right;" class="floatR">{{time}}</h1>
+    <div id="content1">
+      <div id="canvas-markdown4" class="floatL show-list-numbers-and-dots">
+        <p style="color:#000000;">{{canvas_level}}: {{level}}/{{levelMax}}</p>
+        <p style="color:#000000;">{{canvas_totalScore}}: {{totalScore}}</p>
+        <p style="color:#000000;">{{canvas_score}}: {{score}}</p>
+        <p style="color:tomato;">{{canvas_errors}}: {{errors}} / {{maxErrors}}</p>
+      </div>
+    </div>
+    <div id="content2">
+      <h1 id="canvas-operation" class="contentObjective">{{operation}}</h1>
+    </div>
+    <div id="content3">
+      <div id="canvas-button-bar6" class="button-bar">
+        <button id="canvas-button32" class="button button-positive  button-block" ng-click="checkResult(1)">{{option1}}</button>
+        <button id="canvas-button34" class="button button-positive  button-block" ng-click="checkResult(2)">{{option2}}</button>
+      </div>
+      <div id="canvas-button-bar7" class="button-bar">
+        <button id="canvas-button36" class="button button-positive  button-block" ng-click="checkResult(3)">{{option3}}</button>
+        <button id="canvas-button37" class="button button-positive  button-block" ng-click="checkResult(4)">{{option4}}</button>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>

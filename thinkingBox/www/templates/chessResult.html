@@ -1,0 +1,103 @@
+<ion-view title="Sudoku" id="chessResult">
+    <style>
+        #resultMsgResult {
+            text-align: center;
+        }
+        
+        #wrapperDiploma {
+            border: 20px solid #724530;
+            padding: 30px 30px 50px 30px;
+            background: #ece8d8;
+            text-align: center;
+            font-size: 130%;
+            min-width: 250px;
+            max-width: 450px;
+            margin: 50px auto;
+            position: relative;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        }
+        
+        .circleDiploma {
+            background: #724530;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            position: absolute;
+        }
+        
+        #circleDiploma1 {
+            top: -20px;
+            left: -20px;
+        }
+        
+        #circleDiploma2 {
+            top: -20px;
+            right: -20px;
+        }
+        
+        #circleDiploma3 {
+            bottom: -20px;
+            left: -20px;
+        }
+        
+        #circleDiploma4 {
+            bottom: -20px;
+            right: -20px;
+        }
+        
+        #medal {
+            width: 75px;
+            position: absolute;
+            bottom: -50px;
+            right: 0;
+        }
+        
+        #fail {
+            width: 75px;
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+        }
+        
+        #stateGameFail {
+            margin-top: 30px;
+            color: #ac2201;
+            text-align: center;
+            transform: rotate(-10deg);
+        }
+        
+        #stateGameSuccess {
+            margin-top: 30px;
+            color: #4CAF50;
+            text-align: center;
+            transform: rotate(-10deg);
+        }
+        
+        #levelResult {
+            text-transform: uppercase;
+        }
+    </style>
+    <ion-nav-buttons side="right" class="has-header">
+        <button class="button icon ion-android-settings" ng-click="openSettings()"></button>
+    </ion-nav-buttons>
+    <ion-content padding="true" class="has-header">
+        <h1 id="stateGameFail">{{chess_Result_fail}}</h1>
+        <h1 id="stateGameSuccess">{{chess_Result_success}}</h1>
+        <div id="wrapperDiploma">
+            <h2 id="levelResult">{{selectLevel}}</h2> {{chess_Result_time}}: {{time}} <br> {{chess_Result_totalMoves}}: {{totalMoves}} 
+            <!--<br> Total Wins: {{totalWins}}<br> <br> Total Defeats: {{totalDefeats}}<br>-->
+            <br>
+            <div class="circleDiploma" id="circleDiploma1"></div>
+            <div class="circleDiploma" id="circleDiploma2"></div>
+            <div class="circleDiploma" id="circleDiploma3"></div>
+            <div class="circleDiploma" id="circleDiploma4"></div>
+            <img id="medal" src="img/medal.svg">
+            <img id="fail" src="img/fail.svg">
+        </div>
+
+        <div class="button-bar bar-positive">
+            <a class="button" ui-sref="mainMenu">{{chess_Result_home}}</a>
+            <a class="button" ui-sref="chessSelectLevel">{{chess_Result_levels}}</a>
+        </div>
+    </ion-content>
+</ion-view>
