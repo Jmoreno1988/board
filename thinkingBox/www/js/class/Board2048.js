@@ -9,6 +9,9 @@ function Board2048(id, size, autoGen) {
 Board2048.prototype.init = function () {
     // Rellenamos el tablero
     // dos nuemros '2' en dos posiciones aleatorias del tablero 
+
+    this.inflate([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+
     var r1 = Helper.ranMinMax(1, this.size[0]);
     var r2 = Helper.ranMinMax(1, this.size[1]);
 
@@ -17,8 +20,8 @@ Board2048.prototype.init = function () {
         var r4 = Helper.ranMinMax(1, this.size[1]);
     } while (r1 == r3 || r2 == r4)
 
-    //this.cellSetValue(r1, r2, 2);
-    //this.cellSetValue(r3, r4, 2);
+    this.cellSetValue(r1, r2, 2);
+    this.cellSetValue(r3, r4, 2);
 
     // Asociamos las escuchas 
     document.onkeydown = this.handlerKey.bind(this);
@@ -50,6 +53,9 @@ Board2048.prototype.handlerKey = function (e) {
         // right arrow
         this.moveCells("right");
     }
+
+    this.generateCell();
+    this.paint();
 }
 
 /**
@@ -70,7 +76,7 @@ Board2048.prototype.moveCells = function (direction) {
                     }
 
             }
-            this.paint();
+            
             break;
 
         case "right":
@@ -94,7 +100,7 @@ Board2048.prototype.moveCells = function (direction) {
             for (var i = 0; i < this.board.length; i++)
                 this.board[i].reverse();
 
-            this.paint();
+            
             break;
 
         case "up":
@@ -110,7 +116,7 @@ Board2048.prototype.moveCells = function (direction) {
                         }
                     }
             }
-            this.paint();
+            
             break;
 
         case "down":
@@ -138,10 +144,17 @@ Board2048.prototype.moveCells = function (direction) {
             myTempArray.reverse();
             this.inflate(myTempArray);
 
-            this.paint();
+            
             break;
 
     }
+}
+
+/**
+ * genera un numero aleatorio donde sea posible
+ */
+Board2048.prototype.generateCell = function() {
+    
 }
 
 /**

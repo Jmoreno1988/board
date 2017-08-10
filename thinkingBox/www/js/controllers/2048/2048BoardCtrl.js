@@ -7,9 +7,6 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
         }
 
         var b2048 = new Board2048("board1", [4,4], true);
-
-        b2048.inflate([0,4,4,0,2,4,4,0,0,0,4,0,0,4,0,0]);
-    
         b2048.init();
         
 
