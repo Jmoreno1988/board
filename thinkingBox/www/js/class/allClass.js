@@ -42,7 +42,13 @@ var Board = (function () {
         }
     };
     Board.prototype.inflateAll = function (item) { };
-    Board.prototype.cellRandom = function (item) {
+    Board.prototype.cellRandom = function (item) { };
+    Board.prototype.getBoardInSimpleArray = function () {
+        var aux = [];
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++)
+                aux.push({ cell: this.boardArray[i][a], pos: [i, a] });
+        return aux;
     };
     Board.prototype.getBoard = function () {
         return this.boardArray;
@@ -54,7 +60,7 @@ var Board = (function () {
 }());
 var Board2048 = (function (_super) {
     __extends(Board2048, _super);
-    function Board2048(id, size, autoGen) {
+    function Board2048(id, size, autoGen, crtl) {
         var _this = _super.call(this, id, size, autoGen) || this;
         _this.handlerKey = function (e) {
             e = e || window.event;
@@ -70,10 +76,19 @@ var Board2048 = (function (_super) {
             else if (e.keyCode == '39') {
                 _this.moveCells("right");
             }
-            _this.generateCell();
+            if (!_this.isLost() && !_this.isWin())
+                _this.generateCell();
             _this.paint();
         };
         _this.generateCell = function () {
+            var auxArray = this.getBoardInSimpleArray();
+            var voidCells = [];
+            for (var i = 0; i < auxArray.length; i++)
+                if (auxArray[i].cell == 0)
+                    voidCells.push(auxArray[i]);
+            var random = Helper.ranMinMax(0, voidCells.length - 1);
+            var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
+            this.boardArray[pos[0]][pos[1]] = 2;
         };
         _this.paint = function () {
             var node = document.getElementById("board");
@@ -81,19 +96,48 @@ var Board2048 = (function (_super) {
             var aux = 0;
             for (var i = 0; i < this.boardArray.length; i++)
                 for (var a = 0; a < this.boardArray[i].length; a++) {
+                    var listClass = "";
+                    if (this.cell(i + 1, a + 1) == 0)
+                        listClass += " void ";
+                    if (this.cell(i + 1, a + 1) == 2)
+                        listClass += " _2 ";
+                    if (this.cell(i + 1, a + 1) == 4)
+                        listClass += " _4 ";
+                    if (this.cell(i + 1, a + 1) == 8)
+                        listClass += " _8 ";
+                    if (this.cell(i + 1, a + 1) == 16)
+                        listClass += " _16 ";
+                    if (this.cell(i + 1, a + 1) == 32)
+                        listClass += " _32 ";
+                    if (this.cell(i + 1, a + 1) == 64)
+                        listClass += " _64 ";
+                    if (this.cell(i + 1, a + 1) == 128)
+                        listClass += " _128 ";
+                    if (this.cell(i + 1, a + 1) == 256)
+                        listClass += " _256 ";
+                    if (this.cell(i + 1, a + 1) == 512)
+                        listClass += " _512 ";
+                    if (this.cell(i + 1, a + 1) == 1024)
+                        listClass += " _1024 ";
+                    if (this.cell(i + 1, a + 1) >= 2048)
+                        listClass += " _2048 ";
                     if (aux + 4 != this.size[1])
-                        node.innerHTML += '<div class="cell"><span>' + this.cell(i + 1, a + 1) + '</span></div>';
+                        node.innerHTML += '<div class="cell ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>';
                     else
-                        node.innerHTML += '<div class="cell noFloat"><span>' + this.cell(i + 1, a + 1) + '</span></div>';
+                        node.innerHTML += '<div class="cell noFloat ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>';
                     aux++;
                     if (aux == this.size[1]) {
                         aux = 0;
                     }
                 }
         };
+        _this.crtl = crtl;
+        _this.score = 0;
         return _this;
     }
     Board2048.prototype.init = function () {
+        this.crtl.score = 0;
+        this.crtl.record = 0;
         this.inflate([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
         var r1 = Helper.ranMinMax(1, this.size[0]);
         var r2 = Helper.ranMinMax(1, this.size[1]);
@@ -106,6 +150,12 @@ var Board2048 = (function (_super) {
         document.onkeydown = this.handlerKey.bind(this);
         this.paint();
     };
+    Board2048.prototype.handlerSwipe = function (direction) {
+        this.moveCells(direction);
+        if (!this.isLost() && !this.isWin())
+            this.generateCell();
+        this.paint();
+    };
     Board2048.prototype.moveCells = function (direction) {
         switch (direction) {
             case "left":
@@ -114,6 +164,8 @@ var Board2048 = (function (_super) {
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && a - 1 >= 0) {
                                 if (this.boardArray[i][a - 1] == this.boardArray[i][a] || this.boardArray[i][a - 1] == 0) {
+                                    if (this.boardArray[i][a - 1] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i][a - 1] * 2);
                                     this.boardArray[i][a - 1] = this.boardArray[i][a - 1] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -129,6 +181,8 @@ var Board2048 = (function (_super) {
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && a - 1 >= 0) {
                                 if (this.boardArray[i][a - 1] == this.boardArray[i][a] || this.boardArray[i][a - 1] == 0) {
+                                    if (this.boardArray[i][a - 1] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i][a - 1] * 2);
                                     this.boardArray[i][a - 1] = this.boardArray[i][a - 1] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -144,6 +198,8 @@ var Board2048 = (function (_super) {
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && i - 1 >= 0) {
                                 if (this.boardArray[i - 1][a] == this.boardArray[i][a] || this.boardArray[i - 1][a] == 0) {
+                                    if (this.boardArray[i - 1][a] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i - 1][a] * 2);
                                     this.boardArray[i - 1][a] = this.boardArray[i - 1][a] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -163,6 +219,8 @@ var Board2048 = (function (_super) {
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && i - 1 >= 0) {
                                 if (this.boardArray[i - 1][a] == this.boardArray[i][a] || this.boardArray[i - 1][a] == 0) {
+                                    if (this.boardArray[i - 1][a] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i - 1][a] * 2);
                                     this.boardArray[i - 1][a] = this.boardArray[i - 1][a] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -178,7 +236,46 @@ var Board2048 = (function (_super) {
                 break;
         }
     };
+    Board2048.prototype.isLost = function () {
+        var auxArray = this.getBoardInSimpleArray();
+        var isLost = true;
+        for (var i = 0; i < auxArray.length; i++) {
+            if (auxArray[i].cell == 0) {
+                isLost = false;
+            }
+        }
+        return isLost;
+    };
+    Board2048.prototype.isWin = function () {
+        var auxArray = this.getBoardInSimpleArray();
+        for (var i = 0; i < auxArray.length; i++)
+            if (auxArray[i].cell == 2048) {
+                console.log("WIN!!!!!!!!!");
+                return true;
+            }
+        return false;
+    };
+    Board2048.prototype.updateScore = function (score) {
+        this.score += score;
+    };
+    Board2048.prototype.getScore = function () {
+        return this.score;
+    };
     return Board2048;
+}(Board));
+var BoardMinesweeper = (function (_super) {
+    __extends(BoardMinesweeper, _super);
+    function BoardMinesweeper(id, size, autoGen) {
+        var _this = _super.call(this, id, size, autoGen) || this;
+        _this.paint = function () {
+        };
+        return _this;
+    }
+    BoardMinesweeper.prototype.init = function () {
+        this.inflate(auxArr);
+        this.paint();
+    };
+    return BoardMinesweeper;
 }(Board));
 var Helper = (function () {
     function Helper() {

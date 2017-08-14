@@ -79,6 +79,19 @@ class Board {
      */
     public cellRandom(item: any) { }
 
+    /**
+     * Devuelve el tablero como un array e una dimension
+     */
+    public getBoardInSimpleArray() { 
+        var aux: any[] = [];
+
+        for(var i = 0; i < this.boardArray.length; i++)
+            for(var a = 0; a < this.boardArray[i].length; a++)
+                aux.push({cell: this.boardArray[i][a], pos: [i, a]})
+
+        return aux;
+    }
+
 
     // Eventos a celdas individuales
     // Eventos a celdas colectivo

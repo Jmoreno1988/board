@@ -1,10 +1,18 @@
-class Board2048 extends Board{
+class Board2048 extends Board {
 
-    constructor(id: string, size: number[], autoGen: boolean) {
+    private score: number;
+    private crtl: any;
+
+    constructor(id: string, size: number[], autoGen: boolean, crtl: any) {
         super(id, size, autoGen);
+
+        this.crtl = crtl;
+        this.score = 0;
     }
 
     public init() {
+        this.crtl.score = 0;
+        this.crtl.record = 0;
         // Rellenamos el tablero
         // dos nuemros '2' en dos posiciones aleatorias del tablero
         this.inflate([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -30,7 +38,7 @@ class Board2048 extends Board{
     /**
      * Escuchas asociadas a las teclas de direccion
      */
-    private handlerKey = (e: any) =>  {
+    private handlerKey = (e: any) => {
         e = e || window.event;
 
         if (e.keyCode == '38') {
@@ -51,14 +59,26 @@ class Board2048 extends Board{
             this.moveCells("right");
         }
 
-        this.generateCell();
+        if (!this.isLost() && !this.isWin())
+            this.generateCell();
+
         this.paint();
     }
 
+    public handlerSwipe(direction: string) {
+        this.moveCells(direction);
+
+        if (!this.isLost() && !this.isWin())
+            this.generateCell();
+
+        this.paint();
+    }
+
+    // TODO: falta que si no hay movimiento no se genree celda
     /**
      * 
      */
-    private moveCells(direction:string) {
+    private moveCells(direction: string) {
         switch (direction) {
             case "left":
                 for (var l = 0; l < 10; l++) {
@@ -66,8 +86,12 @@ class Board2048 extends Board{
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && a - 1 >= 0) {
                                 if (this.boardArray[i][a - 1] == this.boardArray[i][a] || this.boardArray[i][a - 1] == 0) {
+                                    if(this.boardArray[i][a - 1] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i][a - 1] * 2);
+
                                     this.boardArray[i][a - 1] = this.boardArray[i][a - 1] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
+                                    
                                 }
                             }
                         }
@@ -86,6 +110,10 @@ class Board2048 extends Board{
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && a - 1 >= 0) {
                                 if (this.boardArray[i][a - 1] == this.boardArray[i][a] || this.boardArray[i][a - 1] == 0) {
+                                    
+                                    if(this.boardArray[i][a - 1] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i][a - 1] * 2);
+
                                     this.boardArray[i][a - 1] = this.boardArray[i][a - 1] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -107,6 +135,10 @@ class Board2048 extends Board{
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && i - 1 >= 0) {
                                 if (this.boardArray[i - 1][a] == this.boardArray[i][a] || this.boardArray[i - 1][a] == 0) {
+
+                                    if(this.boardArray[i - 1][a] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i - 1][a] * 2);
+
                                     this.boardArray[i - 1][a] = this.boardArray[i - 1][a] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -117,7 +149,7 @@ class Board2048 extends Board{
                 break;
 
             case "down":
-                var myTempArray:any[] = [];
+                var myTempArray: any[] = [];
                 var i = 0; while (i < this.boardArray.length) myTempArray = myTempArray.concat(this.boardArray[i++]);
                 myTempArray.reverse();
                 this.inflate(myTempArray);
@@ -128,6 +160,10 @@ class Board2048 extends Board{
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && i - 1 >= 0) {
                                 if (this.boardArray[i - 1][a] == this.boardArray[i][a] || this.boardArray[i - 1][a] == 0) {
+
+                                    if(this.boardArray[i - 1][a] == this.boardArray[i][a])
+                                        this.updateScore(this.boardArray[i - 1][a] * 2);
+
                                     this.boardArray[i - 1][a] = this.boardArray[i - 1][a] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
                                 }
@@ -151,7 +187,50 @@ class Board2048 extends Board{
      * genera un numero aleatorio donde sea posible
      */
     public generateCell = function () {
+        // Recogemos todas las casillas vacias
+        var auxArray = this.getBoardInSimpleArray();
 
+        // Vemos las vacias
+        var voidCells = [];
+
+        for (var i = 0; i < auxArray.length; i++)
+            if (auxArray[i].cell == 0)
+                voidCells.push(auxArray[i]);
+
+        var random = Helper.ranMinMax(0, voidCells.length - 1);
+        var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
+        this.boardArray[pos[0]][pos[1]] = 2;
+    }
+
+    /**
+     * Comprueba si ha perdido
+     */
+    public isLost() {
+        var auxArray = this.getBoardInSimpleArray();
+        var isLost = true;
+
+        for (var i = 0; i < auxArray.length; i++) {
+            if (auxArray[i].cell == 0) {
+                isLost = false;
+            }
+        }
+
+        return isLost;
+    }
+
+    /**
+    * Comprueba si ha ganado
+    */
+    public isWin() {
+        var auxArray = this.getBoardInSimpleArray();
+
+        for (var i = 0; i < auxArray.length; i++)
+            if (auxArray[i].cell == 2048) {
+                console.log("WIN!!!!!!!!!")
+                return true;
+            }
+
+        return false;
     }
 
     /**
@@ -165,10 +244,27 @@ class Board2048 extends Board{
         for (var i = 0; i < this.boardArray.length; i++)
             for (var a = 0; a < this.boardArray[i].length; a++) {
 
+                var listClass = "";
+
+                if (this.cell(i + 1, a + 1) == 0)
+                    listClass += " void ";
+
+                if (this.cell(i + 1, a + 1) == 2)    listClass += " _2 ";
+                if (this.cell(i + 1, a + 1) == 4)    listClass += " _4 ";
+                if (this.cell(i + 1, a + 1) == 8)    listClass += " _8 ";
+                if (this.cell(i + 1, a + 1) == 16)   listClass += " _16 ";
+                if (this.cell(i + 1, a + 1) == 32)   listClass += " _32 ";
+                if (this.cell(i + 1, a + 1) == 64)   listClass += " _64 ";
+                if (this.cell(i + 1, a + 1) == 128)  listClass += " _128 ";
+                if (this.cell(i + 1, a + 1) == 256)  listClass += " _256 ";
+                if (this.cell(i + 1, a + 1) == 512)  listClass += " _512 ";
+                if (this.cell(i + 1, a + 1) == 1024) listClass += " _1024 ";
+                if (this.cell(i + 1, a + 1) >= 2048) listClass += " _2048 ";
+
                 if (aux + 4 != this.size[1])
-                    node.innerHTML += '<div class="cell"><span>' + this.cell(i + 1, a + 1) + '</span></div>'
+                    node.innerHTML += '<div class="cell ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>'
                 else
-                    node.innerHTML += '<div class="cell noFloat"><span>' + this.cell(i + 1, a + 1) + '</span></div>'
+                    node.innerHTML += '<div class="cell noFloat ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>'
 
                 aux++;
 
@@ -176,5 +272,17 @@ class Board2048 extends Board{
                     aux = 0;
                 }
             }
+    }
+
+    private updateScore(score:number) {
+        this.score += score;
+        //this.crtl.score = this.score;
+        //console.log(this.crtl.score)
+    }
+
+    /* Getters & Setters */
+
+    public getScore() {
+        return this.score;
     }
 }
