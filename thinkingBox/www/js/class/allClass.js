@@ -60,7 +60,7 @@ var Board = (function () {
 }());
 var Board2048 = (function (_super) {
     __extends(Board2048, _super);
-    function Board2048(id, size, autoGen, crtl) {
+    function Board2048(id, size, level, autoGen, crtl) {
         var _this = _super.call(this, id, size, autoGen) || this;
         _this.handlerKey = function (e) {
             e = e || window.event;
@@ -96,7 +96,7 @@ var Board2048 = (function (_super) {
             var aux = 0;
             for (var i = 0; i < this.boardArray.length; i++)
                 for (var a = 0; a < this.boardArray[i].length; a++) {
-                    var listClass = "";
+                    var listClass = "cell" + this.level;
                     if (this.cell(i + 1, a + 1) == 0)
                         listClass += " void ";
                     if (this.cell(i + 1, a + 1) == 2)
@@ -121,7 +121,7 @@ var Board2048 = (function (_super) {
                         listClass += " _1024 ";
                     if (this.cell(i + 1, a + 1) >= 2048)
                         listClass += " _2048 ";
-                    if (aux + 4 != this.size[1])
+                    if (aux + this.level != this.size[1])
                         node.innerHTML += '<div class="cell ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>';
                     else
                         node.innerHTML += '<div class="cell noFloat ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>';
@@ -131,6 +131,7 @@ var Board2048 = (function (_super) {
                     }
                 }
         };
+        _this.level = level;
         _this.crtl = crtl;
         _this.score = 0;
         return _this;
@@ -138,7 +139,11 @@ var Board2048 = (function (_super) {
     Board2048.prototype.init = function () {
         this.crtl.score = 0;
         this.crtl.record = 0;
-        this.inflate([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        var auxArray = [];
+        for (var i = 0; i < this.level * this.level; i++) {
+            auxArray.push(0);
+        }
+        this.inflate(auxArray);
         var r1 = Helper.ranMinMax(1, this.size[0]);
         var r2 = Helper.ranMinMax(1, this.size[1]);
         do {

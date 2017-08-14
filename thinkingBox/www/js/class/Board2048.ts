@@ -1,11 +1,13 @@
 class Board2048 extends Board {
 
+    private level: number;
     private score: number;
     private crtl: any;
 
-    constructor(id: string, size: number[], autoGen: boolean, crtl: any) {
+    constructor(id: string, size: number[], level: number, autoGen: boolean, crtl: any) {
         super(id, size, autoGen);
 
+        this.level = level;
         this.crtl = crtl;
         this.score = 0;
     }
@@ -15,7 +17,13 @@ class Board2048 extends Board {
         this.crtl.record = 0;
         // Rellenamos el tablero
         // dos nuemros '2' en dos posiciones aleatorias del tablero
-        this.inflate([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+        var auxArray = [];
+
+        for(var i = 0; i < this.level * this.level; i++) {
+            auxArray.push(0);
+        }
+
+        this.inflate(auxArray);
 
         var r1 = Helper.ranMinMax(1, this.size[0]);
         var r2 = Helper.ranMinMax(1, this.size[1]);
@@ -244,7 +252,7 @@ class Board2048 extends Board {
         for (var i = 0; i < this.boardArray.length; i++)
             for (var a = 0; a < this.boardArray[i].length; a++) {
 
-                var listClass = "";
+                var listClass = "cell" + this.level;
 
                 if (this.cell(i + 1, a + 1) == 0)
                     listClass += " void ";
@@ -261,7 +269,7 @@ class Board2048 extends Board {
                 if (this.cell(i + 1, a + 1) == 1024) listClass += " _1024 ";
                 if (this.cell(i + 1, a + 1) >= 2048) listClass += " _2048 ";
 
-                if (aux + 4 != this.size[1])
+                if (aux + this.level != this.size[1])
                     node.innerHTML += '<div class="cell ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>'
                 else
                     node.innerHTML += '<div class="cell noFloat ' + listClass + '"><span>' + this.cell(i + 1, a + 1) + '</span></div>'
