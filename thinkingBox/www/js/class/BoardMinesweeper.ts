@@ -6,7 +6,7 @@ class BoardMinesweeper extends Board {
 
     public init() {
         // Rellenamos el tablero
-        this.inflate(auxArr);
+        //this.inflate(auxArr);
 
 
         // Asociamos las escuchas 

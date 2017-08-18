@@ -1,25 +1,25 @@
 <ion-view hide-back-button="false" title="2048" id="2048Board" cache-view="false">
     <style>
-        .grey{
+        .grey {
             color: #666;
         }
 
-        
 
-        .cell{
+
+        .cell {
             font-size: 150%;
             float: left;
-            text-align:center;
+            text-align: center;
             font-size: 150%;
             background-color: #f5f5f5;
             color: white;
             border-radius: 2px;
         }
 
-        .cell>span{
-            display:inline-block;
-		vertical-align:middle;
-		line-height:normal;
+        .cell>span {
+            display: inline-block;
+            vertical-align: middle;
+            line-height: normal;
         }
 
         .cell3 {
@@ -52,7 +52,7 @@
         }
 
         .noFloat {
-            clear:both;
+            clear: both;
         }
 
         #board {
@@ -82,31 +82,31 @@
             background-color: #00BCD4;
         }
 
-        ._32{ 
+        ._32 {
             background-color: #03A9F4;
         }
 
-        ._64{ 
+        ._64 {
             background-color: #2196F3;
         }
 
-        ._128{ 
+        ._128 {
             background-color: #3F51B5;
         }
 
-        ._256{ 
+        ._256 {
             background-color: #673AB7;
         }
 
-        ._512{ 
+        ._512 {
             background-color: #9C27B0;
         }
 
-        ._1024{ 
+        ._1024 {
             background-color: #E91E63;
         }
 
-        ._2048{ 
+        ._2048 {
             background-color: #f44336;
         }
     </style>
@@ -117,9 +117,9 @@
 
     <ion-content padding="true" class="has-header">
         <div class="row">
-                <div class="col" style="text-align: center">Score<br>{{score}}</div>
-                <div class="col" style="text-align: center">Record<br>{{record}}</div>
-              </div>
+            <div class="col" style="text-align: center">Score<br>{{score}}</div>
+            <div class="col" style="text-align: center">Record<br>{{record}}</div>
+        </div>
         <div id="board" on-swipe-left="onSwipe('left')" on-swipe-right="onSwipe('right')" on-swipe-up="onSwipe('up')" on-swipe-down="onSwipe('down')"></div>
     </ion-content>
 

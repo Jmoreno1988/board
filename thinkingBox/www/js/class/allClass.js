@@ -5,6 +5,11 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Board = (function () {
     function Board(id, size, autoGen) {
+        this.onAll = function (event, callback) {
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++)
+                    this.boardArray[i][a].addEventListener(event, callback);
+        };
         this.id = id;
         this.size = size;
         this.autoGen = autoGen || false;
@@ -268,6 +273,90 @@ var Board2048 = (function (_super) {
     };
     return Board2048;
 }(Board));
+var BoardClown = (function (_super) {
+    __extends(BoardClown, _super);
+    function BoardClown(id, size, level, img, autoGen, crtl) {
+        var _this = _super.call(this, id, size, autoGen) || this;
+        _this.moveCells = function (evt) {
+            var cellNum = evt.target.innerHTML;
+            var index = this.getIndexCellByNum(cellNum);
+            if (index[1] - 1 >= 0 && this.boardArray[index[0]][index[1] - 1].innerHTML == "0") {
+                this.boardArray[index[0]][index[1] - 1].innerHTML = this.boardArray[index[0]][index[1]].innerHTML;
+                this.boardArray[index[0]][index[1]].innerHTML = "0";
+            }
+            else if (index[1] + 1 <= this.boardArray[0].length - 1 && this.boardArray[index[0]][index[1] + 1].innerHTML == "0") {
+                this.boardArray[index[0]][index[1] + 1].innerHTML = this.boardArray[index[0]][index[1]].innerHTML;
+                this.boardArray[index[0]][index[1]].innerHTML = "0";
+            }
+            else if (index[0] - 1 >= 0 && this.boardArray[index[0] - 1][index[1]].innerHTML == "0") {
+                this.boardArray[index[0] - 1][index[1]].innerHTML = this.boardArray[index[0]][index[1]].innerHTML;
+                this.boardArray[index[0]][index[1]].innerHTML = "0";
+            }
+            else if (index[0] + 1 <= this.boardArray[1].length - 1 && this.boardArray[index[0] + 1][index[1]].innerHTML == "0") {
+                this.boardArray[index[0] + 1][index[1]].innerHTML = this.boardArray[index[0]][index[1]].innerHTML;
+                this.boardArray[index[0]][index[1]].innerHTML = "0";
+            }
+            this.paint();
+        };
+        _this.getIndexCellByNum = function (num) {
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    if (this.boardArray[i][a].innerHTML == num)
+                        return [i, a];
+                }
+            return null;
+        };
+        _this.paint = function () {
+            var nodeBoard = document.getElementById("board");
+            nodeBoard.innerHTML = "";
+            var aux = 0;
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    if (aux != this.size[1]) {
+                        var cell = this.cell(i + 1, a + 1);
+                        var num = this.boardArray[i][a].innerHTML;
+                        var url = "img/clow/" + this.img + "/" + this.level + "x" + this.level + "/" + num + ".jpg";
+                        cell.style.backgroundImage = "url(" + url + ")";
+                        nodeBoard.appendChild(cell);
+                        aux++;
+                    }
+                    else {
+                        var cell = this.cell(i + 1, a + 1);
+                        var num = this.boardArray[i][a].innerHTML;
+                        var url = "img/clow/" + this.img + "/" + this.level + "x" + this.level + "/" + num + ".jpg";
+                        cell.setAttribute("class", "cell noFloat cell" + this.level);
+                        cell.style.backgroundImage = "url(" + url + ")";
+                        nodeBoard.appendChild(cell);
+                        aux = 1;
+                    }
+                }
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    if (this.boardArray[i][a].innerHTML == "0") {
+                        this.boardArray[i][a].style.backgroundImage = "";
+                    }
+                }
+        };
+        _this.level = level;
+        _this.crtl = crtl;
+        _this.img = img;
+        return _this;
+    }
+    BoardClown.prototype.init = function () {
+        var size = this.size[0] * this.size[0];
+        var listNodes = [];
+        for (var i = 0; i < size; i++) {
+            var n = document.createElement("div");
+            n.setAttribute("class", "cell cell" + this.level);
+            n.innerHTML = i;
+            listNodes.push(n);
+        }
+        this.inflate(listNodes);
+        this.paint();
+        this.onAll("click", this.moveCells.bind(this));
+    };
+    return BoardClown;
+}(Board));
 var BoardMinesweeper = (function (_super) {
     __extends(BoardMinesweeper, _super);
     function BoardMinesweeper(id, size, autoGen) {
@@ -277,7 +366,6 @@ var BoardMinesweeper = (function (_super) {
         return _this;
     }
     BoardMinesweeper.prototype.init = function () {
-        this.inflate(auxArr);
         this.paint();
     };
     return BoardMinesweeper;

@@ -93,5 +93,19 @@ angular.module('app.routes', [])
       })
       // End 2048
 
+      // Init Clow
+      $stateProvider.state('clowSelectLevel', {
+        url: '/pageclowSelectLevel',
+        templateUrl: 'templates/clow/clowSelectLevel.html',
+        controller: 'clowSelectLevelCtrl'
+      })
+
+      $stateProvider.state('clowBoard', {
+        url: '/pageclowBoard',
+        templateUrl: 'templates/clow/clowBoard.html',
+        controller: 'clowBoardCtrl'
+      }) 
+      //End clow 
+
     $urlRouterProvider.otherwise('/page1')
   });

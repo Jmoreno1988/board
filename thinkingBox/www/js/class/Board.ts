@@ -95,7 +95,11 @@ class Board {
 
     // Eventos a celdas individuales
     // Eventos a celdas colectivo
-
+    protected onAll = function(event: any, callback: any) {
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) 
+                this.boardArray[i][a].addEventListener(event, callback);
+    }
 
     // Getters & Setters
     public getBoard() {
