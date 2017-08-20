@@ -17,42 +17,51 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
             sessionService.set("infoUser", cfg.modelObjectLocalStorage.infoUser);
         }
 
-        $scope.openListGames = function () {
-            document.getElementById("planet1").classList.toggle("p1SecondPosition");
-            document.getElementById("planet2").classList.toggle("p2SecondPosition");
-            document.getElementById("planet3").classList.toggle("p3SecondPosition");
-            document.getElementById("planet4").classList.toggle("p4SecondPosition");
-            document.getElementById("planet5").classList.toggle("p5SecondPosition");
-            document.getElementById("planet1Icon").classList.toggle("pIcon1SecondPosition");
+        document.getElementById("buttonPlayChess").addEventListener("click", function(){
+            $scope.goTo('chess', 'chessSelectLevel');
+        })
 
-            document.getElementById("wpChess").classList.toggle("wpActivate");
-            document.getElementById("wpCalcu").classList.toggle("wpActivate");
-            document.getElementById("wpSudo").classList.toggle("wpActivate");
-            document.getElementById("wpShare").classList.toggle("wpActivate");
-            document.getElementById("wpOpi").classList.toggle("wpActivate");
+        document.getElementById("buttonPlaySudoku").addEventListener("click", function(){
+            $scope.goTo('sudoku', 'sudokuSelectLevel');
+        })
+
+        document.getElementById("buttonPlayCalcu").addEventListener("click", function(){
+            $scope.goTo('calcu', 'selectLevel');
+        })
+
+        document.getElementById("buttonPlay2048").addEventListener("click", function(){
+            $scope.goTo('2048', '2048SelectLevel');
+        })
+
+        document.getElementById("buttonPlayClown").addEventListener("click", function(){
+            $scope.goTo('clown', 'clowSelectLevel');
+        })
+
+        $scope.goTo = function(game, page) {
+            document.getElementById("card-icon-" +  game).style.margin = '-280px auto';
+            document.getElementById("card-icon-" +  game).style.width = "80px";
+            document.getElementById("card-circle-" +  game).style.height = '670px';
+            document.getElementById("wrapper-" +  game).style.display = "none";
+
+            setTimeout(function(){ $state.go(page); }, 1000);
         }
 
-        $scope.showHelp = function () {
-            var list = document.querySelectorAll(".helpTitle")
-            for (var i = 0; i < list.length; i++)
-                list[i].classList.toggle("helpOptionsShowSecond");
-        }
+        $(document).ready(function () {
+            $('.carousel').slick({
+                dots: true,
+                infinite: true,
+                speed: 300,
+                slidesToShow: 1,
+                centerMode: true,
+                variableWidth: false
+            });
+        });
 
         $scope.openSettings = function () {
             $ionicSideMenuDelegate.toggleLeft();
         }
 
-        $scope.goTo = function (page) {
-            switch (page) {
-                case 'menuRecordsCal':
-                    $state.go(page);
-                    break;
-                case 'sudokuBoard':
-                    $state.go(page);
-                    break;
-            }
-        }
-
+        
         $scope.showValorateModal = function () {
             var l = sessionService.get("config").lenguage;
             var d = dictionary;
@@ -118,10 +127,6 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
         $scope.$on('modal.removed', function () {
             // Execute action
         });
-
-        $scope.test = function () {
-            console.log("Inicio juego")
-        }
 
         // Traduccion
         $scope.$on("changeLanguage", function () { translate() });

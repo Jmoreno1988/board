@@ -1,242 +1,90 @@
-<ion-view title="Menu" id="page14">
+<ion-view title="Menu" id="page14" cache-view="false" hide-nav-bar="true">
     <style>
-        .containerCircles {
-            text-align: center;
-            margin: 50px 0 10px 0;
-            z-index: 2;
-        }
-        
-        .buttonText {
-            text-align: center;
-            position: relative;
-            top: 50%;
-            -ms-transform: translateY(-50%);
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-        }
-        
-        .buttonIcon {
-            text-align: center;
-            position: relative;
-            top: 50%;
-            -ms-transform: translateY(-50%);
-            -webkit-transform: translateY(-50%);
-            transform: translateY(-50%);
-            padding-top: 5px;
-        }
-        
-        #buttonClose {
-            z-index: 2;
-            width: 60px;
-            height: 60px;
-            background: #2196f3;
-            transition: all .3s ease;
-            pointer-events: none;
-            opacity: 0;
-        }
-        
-        .buttonCloseSecondPosition {
-            opacity: 1!important;
-        }
-        /* Ayuda */
-        
-        #buttonHelp {
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            margin-right: 5px;
-        }
-        
-        #helpOptions {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0 -20px 0 0;
-        }
-        
-        .helpOptionsShowSecond {
-            opacity: 1!important;
-        }
-        
-        .helpTitle {
-            color: black;
-            text-align: center;
-            width: 100px;
-            opacity: 0;
-            transition: all .5s ease;
-        }
-        
-        #helpShare {
-            margin: 10px 0 0 0;
-        }
-        
-        #helpRate {
-            margin: 10px 0 0 -50px;
-        }
-        
-        #helpCalcu {
-            margin: -60px 0 0 -50px;
-        }
-        
-        #helpChess {
-            margin: -55px 0 0 0px;
-        }
-        
-        #helpSudoku {
-            margin: -65px 0 0 -28px;
-        }
-        
         #versionBox {
             position: absolute;
-            bottom: 10px;
+            bottom: 50px;
             right: 10px;
         }
-        
+
         #titleSvg {
             max-width: 400px;
             min-width: 200px;
             width: 60%;
-            margin-top:20px;
+            margin-top: 30px;
         }
-        
+
         #wrapperTitleSvg {
             text-align: center;
             width: 100%;
         }
-        /* Menu ionico */
-        
-        .planet {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 3px solid #448AFF;
-            background: white;
+
+        .card {
+            height: 300px;
         }
-        
-        .backgroundRotate {
-            width: 190px;
-            height: 190px;
-            transition: 1s all ease;
-            position: absolute;
-        }
-        
-        #galaxy {
-            width: 190px;
-            height: 190px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+
+        .card-circle {
+            width: 200%;
+            height: 370px;
+            margin-top: -300px;
+            margin-left: -50%;
             border-radius: 50%;
+            transition: all .5s ease;
         }
-        
-        #halo {
-            z-index: -2;
-            position: absolute;
-            width: 205px;
-            height: 205px;
-            top: 50%;
-            left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            -webkit-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            border: 3px solid #448AFF;
+
+        .card-circle-icon {
+            width: 40px;
+            margin: -60px auto;
+            transition: all .5s ease;
         }
-        
-        #core {
-            width: 75px;
-            height: 75px;
-            background: #448AFF;
-            border-radius: 50%;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+
+        .card-title {
+            margin-top: 100px;
+            margin-bottom: 20px;
+            font-size: 36px;
+            line-height: 36px;
+        }
+
+        .card-container-text {
+            width: 100%;
+            height: 90px;
+        }
+
+        .card-button {
+            width: 90%;
+            margin: 0 auto;
             color: white;
         }
-        
-        #wrapperPlanet {
-            width: 50px;
-            height: 50px;
-            background: red;
-            position: relative;
+
+
+        .card p {
+            margin: 0 10px 0 10px;
+            font-size: 90%;
         }
-        
-        #planet1,
-        #planet2,
-        #planet3,
-        #planet4,
-        #planet5 {
-            transform: rotate(90deg);
-            float: left;
+
+        .menu-footer-icon {
+            margin-top: -4px;
+            width: 24px;
         }
-        
-        .wp {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 50px;
-            height: 50px;
-            display: none;
+
+        .purple {
+            background-color: #9c27b0;
         }
-        
-        .wpActivate {
-            display: block;
+
+        .blue {
+            background-color: #2196f3;
         }
-        
-        #wpChess {
-            transform: translate(-50%, -125px);
+
+        .green {
+            background-color: #4caf50;
         }
-        
-        #wpCalcu {
-            transform: translate(-115px, -65px);
+
+        .orange {
+            background-color: #ff5722;
         }
-        
-        #wpSudo {
-            transform: translate(65px, -65px);
+
+        .amber {
+            background-color: #ffc107;
         }
-        
-        #wpShare {
-            transform: translate(-95px, 45px);
-        }
-        
-        #wpOpi {
-            transform: translate(45px, 45px);
-        }
-        
-        #planet1Icon {
-            transition: all 1s ease;
-        }
-        
-        .p1SecondPosition {
-            transform: rotate(180deg)!important;
-        }
-        
-        .p2SecondPosition {
-            transform: rotate(472.5deg)!important;
-        }
-        
-        .p3SecondPosition {
-            transform: rotate(404.9999deg)!important;
-        }
-        
-        .p4SecondPosition {
-            transform: rotate(337.5deg)!important;
-        }
-        
-        .p5SecondPosition {
-            transform: rotate(270deg)!important;
-        }
-        
-        .pIcon1SecondPosition {
-            transform: rotate(-90deg)!important;
-        }
-        /* Fin Menu ionico */
     </style>
 
     <ion-nav-buttons side="right" class="has-header">
@@ -244,74 +92,122 @@
     </ion-nav-buttons>
 
 
+    <!--
     <ion-content padding="true" class="has-header" id="wrapperMainMenu">
-        <div id="wrapperTitleSvg">
-            <img id="titleSvg" src="img/title.svg" alt="Thinking Box">
-        </div>
-
+        
         <button ui-sref="2048SelectLevel"> ::::: 2048 ::::: </button> <br>
         <button ui-sref="clowSelectLevel"> ::::: Clow ::::: </button> <br>
         <button ui-sref="clowSelectLevel"> ::::: Minesweeper ::::: </button> <br>
         <button ui-sref="test"> ::::: NEW MENU ::::: </button> <br>
+-->
+    <ion-content class="main-view">
+        <div id="wrapperTitleSvg">
+            <img id="titleSvg" src="img/title.svg" alt="Thinking Box">
+        </div>
+        <div style="width:100%;">
+            <div class="carousel">
 
-        <div id="galaxy">
-            <div id="halo"></div>
-            <div class="backgroundRotate" id="planet2">
-                <div class="planet">
-                    <div class="buttonIcon">
-                        <img src="img/sudoku2.svg">
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle blue" id="card-circle-chess"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/horse.svg" id="card-icon-chess">
+                        <div id="wrapper-chess">
+                            <div class="card-title">
+                                Chess
+                            </div>
+                            <div class="card-container-text">
+                                <p>El peón es la causa más frecuente de la derrota.</p>
+                                <p>(W. Steinitz)</p>
+                            </div>
+                            <button id="buttonPlayChess" class="button card-button blue">JUGAR</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- adasdasd -->
-            <div class="backgroundRotate" id="planet3">
-                <div class="planet">
-                    <div class="buttonIcon">
-                        <img src="img/horse-rotate.svg">
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle green" id="card-circle-sudoku"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/sudoku.svg" id="card-icon-sudoku">
+                        <div id="wrapper-sudoku">
+                            <div class="card-title">
+                                Sudoku
+                            </div>
+                            <div class="card-container-text">
+                                <p>El peón es la causa más frecuente de la derrota.</p>
+                                <p>(W. Steinitz)</p>
+                            </div>
+                            <button id="buttonPlaySudoku" class="button card-button green">JUGAR</button>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-
-            <div class="backgroundRotate" id="planet4">
-                <div class="planet">
-                    <img src="img/calculator2.svg">
-                </div>
-            </div>
-
-            <div class="backgroundRotate" id="planet5">
-                <div class="planet">
-                    <div class="buttonIcon">
-                        <img src="img/share-rotate.svg">
-
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle purple" id="card-circle-calcu"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/calcu.svg" id="card-icon-calcu">
+                        <div id="wrapper-calcu">
+                            <div class="card-title">
+                                Calcu
+                            </div>
+                            <div class="card-container-text">
+                                <p>El peón es la causa más frecuente de la derrota.</p>
+                                <p>(W. Steinitz)</p>
+                            </div>
+                            <button id="buttonPlayCalcu" class="button card-button purple">JUGAR</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="backgroundRotate" id="planet1">
-                <div class="planet" ng-click="showValorateModal()">
-                    <div class="buttonIcon">
-                        <img id="planet1Icon" src="img/heart.svg">
-                        <span class="helpTitle" id="helpOptions">{{mainMenuCtrl_rate}}</span>
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle orange" id="card-circle-2048"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/2048.svg" id="card-icon-2048">
+                        <div id="wrapper-2048">
+                            <div class="card-title">
+                                2048
+                            </div>
+                            <div class="card-container-text">
+                                <p>El peón es la causa más frecuente de la derrota.</p>
+                                <p>(W. Steinitz)</p>
+                            </div>
+                            <button id="buttonPlay2048" class="button card-button orange">JUGAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle amber" id="card-circle-clown"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/clown.svg" id="card-icon-clown">
+                        <div id="wrapper-clown">
+                            <div class="card-title">
+                                Puzzle
+                            </div>
+                            <div class="card-container-text">
+                                <p>El peón es la causa más frecuente de la derrota.</p>
+                                <p>(W. Steinitz)</p>
+                            </div>
+                            <button id="buttonPlayClown" class="button card-button amber">JUGAR</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="core" ng-click="openListGames()">
-            <div class="buttonText">{{mainMenuCtrl_play}}</div>
+        <div class="bar bar-footer bar-balanced">
+            <div class="row" style="text-align: center;">
+                <div class="col" ng-click="showShareMenu()">
+                    <img class="menu-footer-icon" src="img/icons_main_menu/share.svg">
+                </div>
+                <div class="col" ng-click="showValorateModal()">
+                    <img class="menu-footer-icon" src="img/icons_main_menu/heart.svg">
+                </div>
+                <div class="col" ng-click="openSettings()">
+                    <img class="menu-footer-icon" src="img/icons_main_menu/settings.svg">
+                </div>
+            </div>
         </div>
 
-        <!-- -->
-        <div class="wp" id="wpChess" ui-sref="chessSelectLevel"> </div>
-        <div class="wp" id="wpCalcu" ui-sref="selectLevel"> </div>
-        <div class="wp" id="wpSudo" ui-sref="sudokuSelectLevel"> </div>
-        <div class="wp" id="wpShare" ng-click="showShareMenu()">
-            <span class="helpTitle" id="helpOptions">{{mainMenuCtrl_share}}</span>
-        </div>
-        <div class="wp" id="wpOpi" ng-click="showValorateModal()"> </div>
-        
         <div id="versionBox">V{{versionApp}}</div>
     </ion-content>
 </ion-view>

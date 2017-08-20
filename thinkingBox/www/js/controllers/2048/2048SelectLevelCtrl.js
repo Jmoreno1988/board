@@ -38,7 +38,7 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
                     document.getElementById("b4").classList.remove("colPressed");
                     document.getElementById("b6").classList.remove("colPressed");
                     document.getElementById("b8").classList.add("colPressed");
-                    document.getElementById("imgGrid").src = "img/2048/8x8onic .png";
+                    document.getElementById("imgGrid").src = "img/2048/8x8.png";
                     actualLevel = 8;
                     break;
             }
