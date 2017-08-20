@@ -105,7 +105,13 @@ angular.module('app.routes', [])
         templateUrl: 'templates/clow/clowBoard.html',
         controller: 'clowBoardCtrl'
       }) 
-      //End clow 
+      //End clow
+      
+      $stateProvider.state('test', {
+        url: '/test',
+        templateUrl: 'templates/test/test.html',
+        controller: 'testCtrl'
+      }) 
 
     $urlRouterProvider.otherwise('/page1')
   });

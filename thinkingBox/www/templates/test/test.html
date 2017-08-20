@@ -1,0 +1,165 @@
+<ion-view hide-back-button="false" title="test" id="" cache-view="false">
+    <style>
+        #wrapperTitleSvg {
+            text-align: center;
+            width: 100%;
+        }
+
+        .card {
+            height: 300px;
+        }
+
+        .card-circle {
+            width: 200%;
+            height: 370px;
+            margin-top: -300px;
+            margin-left: -50%;
+            border-radius: 50%;
+            transition: all .5s ease;
+        }
+
+        .card-circle-icon {
+            width: 40px;
+            margin: -60px auto;
+            transition: all .5s ease;
+        }
+
+        .card-title {
+            margin-top: 100px;
+            margin-bottom: 20px;
+            font-size: 36px;
+            line-height: 36px;
+        }
+
+        .card-container-text {
+            width: 100%;
+            height: 90px;
+        }
+
+        .card-button {
+            width: 90%;
+            margin: 0 auto;
+            color: white;
+        }
+
+
+        .card p {
+            margin: 0 10px 0 10px;
+            font-size: 90%;
+        }
+
+        .purple {
+            background-color: #9c27b0;
+        }
+
+        .blue {
+            background-color: #2196f3;
+        }
+
+        .green {
+            background-color: #4caf50;
+        }
+
+        .orange {
+            background-color: #ff5722;
+        }
+
+        .amber {
+            background-color: #ffc107;
+        }
+    </style>
+
+
+    <ion-content class="main-view">
+        <br>
+        <div style="width: 100%; text-align: center;">
+            <img style="width: 60%" id="titleSvg" src="img/title.svg" alt="Thinking Box">
+        </div>
+
+        <br>
+
+        <div style="width:100%; height: 500px;">
+            <div class="carousel">
+
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle blue" id="card-circle-chess"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/horse.svg" id="card-icon-chess">
+                        <div id="wrapperChess">
+                            <div class="card-title">
+                                Chess
+                            </div>
+                            <div class="card-container-text">
+                                <p>El peón es la causa más frecuente de la derrota.</p>
+                                <p>(W. Steinitz)</p>
+                            </div>
+                            <button id="buttonPlayChess" class="button card-button blue">JUGAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle green"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/horse.svg">
+                        <div class="card-title">
+                            Sudoku
+                        </div>
+                        <div class="card-container-text">
+                            <p>El peón es la causa más frecuente de la derrota.</p>
+                            <p>(W. Steinitz)</p>
+                        </div>
+                        <button class="button card-button blue">JUGAR</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle purple"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/horse.svg">
+                        <div class="card-title">
+                            Calcu
+                        </div>
+                        <div class="card-container-text">
+                            <p>El peón es la causa más frecuente de la derrota.</p>
+                            <p>(W. Steinitz)</p>
+                        </div>
+                        <button class="button card-button blue">JUGAR</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle orange"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/horse.svg">
+                        <div class="card-title">
+                            2048
+                        </div>
+                        <div class="card-container-text">
+                            <p>El peón es la causa más frecuente de la derrota.</p>
+                            <p>(W. Steinitz)</p>
+                        </div>
+                        <button class="button card-button blue">JUGAR</button>
+                    </div>
+                </div>
+
+                <div style="text-align: center">
+                    <div class="card">
+                        <div class="card-circle amber"></div>
+                        <img class="card-circle-icon" src="img/icons_main_menu/horse.svg">
+                        <div class="card-title">
+                            Puzzle
+                        </div>
+                        <div class="card-container-text">
+                            <p>El peón es la causa más frecuente de la derrota.</p>
+                            <p>(W. Steinitz)</p>
+                        </div>
+                        <button class="button card-button blue">JUGAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>
