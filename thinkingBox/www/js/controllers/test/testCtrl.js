@@ -2,16 +2,32 @@ appControllers.controller('testCtrl', ['$scope', 'sessionService', '$state', 'br
     function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate, $ionicPopup) {
 
         document.getElementById("buttonPlayChess").addEventListener("click", function(){
-            $scope.goTo();
+            $scope.goTo('chess');
         })
 
-        $scope.goTo = function() {
-            document.getElementById("card-icon-chess").style.margin = '-280px auto';
-            document.getElementById("card-icon-chess").style.width = "80px";
-            document.getElementById("card-circle-chess").style.height = '670px';
-            document.getElementById("wrapperChess").style.display = "none";
+        document.getElementById("buttonPlaySudoku").addEventListener("click", function(){
+            $scope.goTo('sudoku');
+        })
 
-            //setTimeout(function(){ $state.go('chessSelectLevel'); }, 1000);
+        document.getElementById("buttonPlayCalcu").addEventListener("click", function(){
+            $scope.goTo('calcu');
+        })
+
+        document.getElementById("buttonPlay2048").addEventListener("click", function(){
+            $scope.goTo('2048');
+        })
+
+        document.getElementById("buttonPlayClown").addEventListener("click", function(){
+            $scope.goTo('clown');
+        })
+
+        $scope.goTo = function(game) {
+            document.getElementById("card-icon-" +  game).style.margin = '-280px auto';
+            document.getElementById("card-icon-" +  game).style.width = "80px";
+            document.getElementById("card-circle-" +  game).style.height = '670px';
+            document.getElementById("wrapper-" +  game).style.display = "none";
+
+            setTimeout(function(){ $state.go('chessSelectLevel'); }, 1000);
         }
 
         $(document).ready(function () {
