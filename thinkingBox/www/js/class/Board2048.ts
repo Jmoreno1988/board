@@ -19,7 +19,7 @@ class Board2048 extends Board {
         // dos nuemros '2' en dos posiciones aleatorias del tablero
         var auxArray = [];
 
-        for(var i = 0; i < this.level * this.level; i++) {
+        for (var i = 0; i < this.level * this.level; i++) {
             auxArray.push(0);
         }
 
@@ -68,7 +68,9 @@ class Board2048 extends Board {
         }
 
         if (!this.isLost() && !this.isWin())
-            this.generateCell();
+            setTimeout(function () {
+                this.generateCell();
+            }.bind(this), 100);
 
         this.paint();
     }
@@ -77,7 +79,9 @@ class Board2048 extends Board {
         this.moveCells(direction);
 
         if (!this.isLost() && !this.isWin())
-            this.generateCell();
+            setTimeout(function () {
+                this.generateCell();
+            }.bind(this), 100);
 
         this.paint();
     }
@@ -94,12 +98,12 @@ class Board2048 extends Board {
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && a - 1 >= 0) {
                                 if (this.boardArray[i][a - 1] == this.boardArray[i][a] || this.boardArray[i][a - 1] == 0) {
-                                    if(this.boardArray[i][a - 1] == this.boardArray[i][a])
+                                    if (this.boardArray[i][a - 1] == this.boardArray[i][a])
                                         this.updateScore(this.boardArray[i][a - 1] * 2);
 
                                     this.boardArray[i][a - 1] = this.boardArray[i][a - 1] + this.boardArray[i][a];
                                     this.boardArray[i][a] = 0;
-                                    
+
                                 }
                             }
                         }
@@ -118,8 +122,8 @@ class Board2048 extends Board {
                         for (var a = 0; a < this.boardArray[i].length; a++) {
                             if (this.boardArray[i][a] != 0 && a - 1 >= 0) {
                                 if (this.boardArray[i][a - 1] == this.boardArray[i][a] || this.boardArray[i][a - 1] == 0) {
-                                    
-                                    if(this.boardArray[i][a - 1] == this.boardArray[i][a])
+
+                                    if (this.boardArray[i][a - 1] == this.boardArray[i][a])
                                         this.updateScore(this.boardArray[i][a - 1] * 2);
 
                                     this.boardArray[i][a - 1] = this.boardArray[i][a - 1] + this.boardArray[i][a];
@@ -144,7 +148,7 @@ class Board2048 extends Board {
                             if (this.boardArray[i][a] != 0 && i - 1 >= 0) {
                                 if (this.boardArray[i - 1][a] == this.boardArray[i][a] || this.boardArray[i - 1][a] == 0) {
 
-                                    if(this.boardArray[i - 1][a] == this.boardArray[i][a])
+                                    if (this.boardArray[i - 1][a] == this.boardArray[i][a])
                                         this.updateScore(this.boardArray[i - 1][a] * 2);
 
                                     this.boardArray[i - 1][a] = this.boardArray[i - 1][a] + this.boardArray[i][a];
@@ -169,7 +173,7 @@ class Board2048 extends Board {
                             if (this.boardArray[i][a] != 0 && i - 1 >= 0) {
                                 if (this.boardArray[i - 1][a] == this.boardArray[i][a] || this.boardArray[i - 1][a] == 0) {
 
-                                    if(this.boardArray[i - 1][a] == this.boardArray[i][a])
+                                    if (this.boardArray[i - 1][a] == this.boardArray[i][a])
                                         this.updateScore(this.boardArray[i - 1][a] * 2);
 
                                     this.boardArray[i - 1][a] = this.boardArray[i - 1][a] + this.boardArray[i][a];
@@ -195,19 +199,20 @@ class Board2048 extends Board {
      * genera un numero aleatorio donde sea posible
      */
     public generateCell = function () {
-        // Recogemos todas las casillas vacias
         var auxArray = this.getBoardInSimpleArray();
-
-        // Vemos las vacias
+        var newNumber = Math.random() > 0.9 ? 4 : 2;
         var voidCells = [];
+        var random = Helper.ranMinMax(0, voidCells.length - 1);
 
         for (var i = 0; i < auxArray.length; i++)
             if (auxArray[i].cell == 0)
                 voidCells.push(auxArray[i]);
 
-        var random = Helper.ranMinMax(0, voidCells.length - 1);
         var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
-        this.boardArray[pos[0]][pos[1]] = 2;
+        console.log(pos)
+        this.boardArray[pos[0]][pos[1]] = newNumber;
+
+        this.paint();
     }
 
     /**
@@ -222,7 +227,7 @@ class Board2048 extends Board {
                 isLost = false;
             }
         }
-
+        console.log(isLost)
         return isLost;
     }
 
@@ -257,15 +262,15 @@ class Board2048 extends Board {
                 if (this.cell(i + 1, a + 1) == 0)
                     listClass += " void ";
 
-                if (this.cell(i + 1, a + 1) == 2)    listClass += " _2 ";
-                if (this.cell(i + 1, a + 1) == 4)    listClass += " _4 ";
-                if (this.cell(i + 1, a + 1) == 8)    listClass += " _8 ";
-                if (this.cell(i + 1, a + 1) == 16)   listClass += " _16 ";
-                if (this.cell(i + 1, a + 1) == 32)   listClass += " _32 ";
-                if (this.cell(i + 1, a + 1) == 64)   listClass += " _64 ";
-                if (this.cell(i + 1, a + 1) == 128)  listClass += " _128 ";
-                if (this.cell(i + 1, a + 1) == 256)  listClass += " _256 ";
-                if (this.cell(i + 1, a + 1) == 512)  listClass += " _512 ";
+                if (this.cell(i + 1, a + 1) == 2) listClass += " _2 ";
+                if (this.cell(i + 1, a + 1) == 4) listClass += " _4 ";
+                if (this.cell(i + 1, a + 1) == 8) listClass += " _8 ";
+                if (this.cell(i + 1, a + 1) == 16) listClass += " _16 ";
+                if (this.cell(i + 1, a + 1) == 32) listClass += " _32 ";
+                if (this.cell(i + 1, a + 1) == 64) listClass += " _64 ";
+                if (this.cell(i + 1, a + 1) == 128) listClass += " _128 ";
+                if (this.cell(i + 1, a + 1) == 256) listClass += " _256 ";
+                if (this.cell(i + 1, a + 1) == 512) listClass += " _512 ";
                 if (this.cell(i + 1, a + 1) == 1024) listClass += " _1024 ";
                 if (this.cell(i + 1, a + 1) >= 2048) listClass += " _2048 ";
 
@@ -282,7 +287,7 @@ class Board2048 extends Board {
             }
     }
 
-    private updateScore(score:number) {
+    private updateScore(score: number) {
         this.score += score;
         //this.crtl.score = this.score;
         //console.log(this.crtl.score)

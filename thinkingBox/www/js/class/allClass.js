@@ -82,18 +82,23 @@ var Board2048 = (function (_super) {
                 _this.moveCells("right");
             }
             if (!_this.isLost() && !_this.isWin())
-                _this.generateCell();
+                setTimeout(function () {
+                    this.generateCell();
+                }.bind(_this), 100);
             _this.paint();
         };
         _this.generateCell = function () {
             var auxArray = this.getBoardInSimpleArray();
+            var newNumber = Math.random() > 0.9 ? 4 : 2;
             var voidCells = [];
+            var random = Helper.ranMinMax(0, voidCells.length - 1);
             for (var i = 0; i < auxArray.length; i++)
                 if (auxArray[i].cell == 0)
                     voidCells.push(auxArray[i]);
-            var random = Helper.ranMinMax(0, voidCells.length - 1);
             var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
-            this.boardArray[pos[0]][pos[1]] = 2;
+            console.log(pos);
+            this.boardArray[pos[0]][pos[1]] = newNumber;
+            this.paint();
         };
         _this.paint = function () {
             var node = document.getElementById("board");
@@ -163,7 +168,9 @@ var Board2048 = (function (_super) {
     Board2048.prototype.handlerSwipe = function (direction) {
         this.moveCells(direction);
         if (!this.isLost() && !this.isWin())
-            this.generateCell();
+            setTimeout(function () {
+                this.generateCell();
+            }.bind(this), 100);
         this.paint();
     };
     Board2048.prototype.moveCells = function (direction) {
@@ -254,6 +261,7 @@ var Board2048 = (function (_super) {
                 isLost = false;
             }
         }
+        console.log(isLost);
         return isLost;
     };
     Board2048.prototype.isWin = function () {

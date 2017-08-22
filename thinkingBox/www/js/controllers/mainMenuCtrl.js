@@ -32,11 +32,11 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
         document.getElementById("buttonPlay2048").addEventListener("click", function(){
             $scope.goTo('2048', '2048SelectLevel');
         })
-
+/*
         document.getElementById("buttonPlayClown").addEventListener("click", function(){
             $scope.goTo('clown', 'clowSelectLevel');
         })
-
+*/
         $scope.goTo = function(game, page) {
             document.getElementById("card-icon-" +  game).style.margin = '-280px auto';
             document.getElementById("card-icon-" +  game).style.width = "80px";
