@@ -1,6 +1,9 @@
 appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state', 'bridgeService', '$ionicSideMenuDelegate', '$ionicPopup',
     function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate, $ionicPopup) {
 
+        if(!bridgeService.data._2048SelectLevel)
+            $state.go("2048SelectLevel");
+
         var level = bridgeService.data._2048SelectLevel;
         var b2048 = new Board2048("board1", [level, level], level, true, $scope);
         b2048.init();
