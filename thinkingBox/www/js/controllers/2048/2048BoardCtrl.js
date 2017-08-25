@@ -14,6 +14,22 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
             $scope.score = b2048.getScore();
         }
 
+        // Popup resultados
+        $scope.showResult = function(result) {
+            console.log(result)
+            var alertPopup = $ionicPopup.alert({
+              title: 'Resultados!!',
+              template: 'Felicidades has tenido 3420pts',
+              buttons: [
+                { text: 'Salir al menu' }
+               ]
+            });
+         
+            alertPopup.then(function(res) {
+                $state.go("2048SelectLevel");
+            });
+        }
+
         $scope.openSettings = function () {
             $ionicSideMenuDelegate.toggleLeft();
         }

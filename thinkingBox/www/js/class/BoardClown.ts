@@ -14,7 +14,7 @@ class BoardClown extends Board {
 
     public init() {
         var size = this.size[0] * this.size[0];
-        var listNodes = [];
+        var listNodes: any = [];
 
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");

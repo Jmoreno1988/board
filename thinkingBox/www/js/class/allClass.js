@@ -66,8 +66,9 @@ var Board = (function () {
 var Board2048 = (function (_super) {
     __extends(Board2048, _super);
     function Board2048(id, size, level, autoGen, crtl) {
-        var _this = _super.call(this, id, size, autoGen) || this;
-        _this.handlerKey = function (e) {
+        var _this = this;
+        _super.call(this, id, size, autoGen);
+        this.handlerKey = function (e) {
             e = e || window.event;
             if (e.keyCode == '38') {
                 _this.moveCells("up");
@@ -87,7 +88,7 @@ var Board2048 = (function (_super) {
                 }.bind(_this), 100);
             _this.paint();
         };
-        _this.generateCell = function () {
+        this.generateCell = function () {
             var auxArray = this.getBoardInSimpleArray();
             var newNumber = Math.random() > 0.9 ? 4 : 2;
             var voidCells = [];
@@ -100,7 +101,7 @@ var Board2048 = (function (_super) {
             this.boardArray[pos[0]][pos[1]] = newNumber;
             this.paint();
         };
-        _this.paint = function () {
+        this.paint = function () {
             var node = document.getElementById("board");
             node.innerHTML = "";
             var aux = 0;
@@ -141,10 +142,9 @@ var Board2048 = (function (_super) {
                     }
                 }
         };
-        _this.level = level;
-        _this.crtl = crtl;
-        _this.score = 0;
-        return _this;
+        this.level = level;
+        this.crtl = crtl;
+        this.score = 0;
     }
     Board2048.prototype.init = function () {
         this.crtl.score = 0;
@@ -160,8 +160,8 @@ var Board2048 = (function (_super) {
             var r3 = Helper.ranMinMax(1, this.size[0]);
             var r4 = Helper.ranMinMax(1, this.size[1]);
         } while (r1 == r3 || r2 == r4);
-        this.cellSetValue(r1, r2, 2);
-        this.cellSetValue(r3, r4, 2);
+        this.cellSetValue(1, 1, 1024);
+        this.cellSetValue(1, 4, 1024);
         document.onkeydown = this.handlerKey.bind(this);
         this.paint();
     };
@@ -171,6 +171,19 @@ var Board2048 = (function (_super) {
             setTimeout(function () {
                 this.generateCell();
             }.bind(this), 100);
+        else {
+            setTimeout(function () {
+                this.paint();
+                if (this.isWin()) {
+                    this.crtl.showResult();
+                    console.log("ganaaa");
+                }
+                else {
+                    this.crtl.showResult();
+                    console.log("pierdeeee");
+                }
+            }.bind(this), 100);
+        }
         this.paint();
     };
     Board2048.prototype.moveCells = function (direction) {
@@ -267,8 +280,7 @@ var Board2048 = (function (_super) {
     Board2048.prototype.isWin = function () {
         var auxArray = this.getBoardInSimpleArray();
         for (var i = 0; i < auxArray.length; i++)
-            if (auxArray[i].cell == 2048) {
-                console.log("WIN!!!!!!!!!");
+            if (auxArray[i].cell >= 2048) {
                 return true;
             }
         return false;
@@ -284,8 +296,8 @@ var Board2048 = (function (_super) {
 var BoardClown = (function (_super) {
     __extends(BoardClown, _super);
     function BoardClown(id, size, level, img, autoGen, crtl) {
-        var _this = _super.call(this, id, size, autoGen) || this;
-        _this.moveCells = function (evt) {
+        _super.call(this, id, size, autoGen);
+        this.moveCells = function (evt) {
             var cellNum = evt.target.innerHTML;
             var index = this.getIndexCellByNum(cellNum);
             if (index[1] - 1 >= 0 && this.boardArray[index[0]][index[1] - 1].innerHTML == "0") {
@@ -306,7 +318,7 @@ var BoardClown = (function (_super) {
             }
             this.paint();
         };
-        _this.getIndexCellByNum = function (num) {
+        this.getIndexCellByNum = function (num) {
             for (var i = 0; i < this.boardArray.length; i++)
                 for (var a = 0; a < this.boardArray[i].length; a++) {
                     if (this.boardArray[i][a].innerHTML == num)
@@ -314,7 +326,7 @@ var BoardClown = (function (_super) {
                 }
             return null;
         };
-        _this.paint = function () {
+        this.paint = function () {
             var nodeBoard = document.getElementById("board");
             nodeBoard.innerHTML = "";
             var aux = 0;
@@ -345,10 +357,9 @@ var BoardClown = (function (_super) {
                     }
                 }
         };
-        _this.level = level;
-        _this.crtl = crtl;
-        _this.img = img;
-        return _this;
+        this.level = level;
+        this.crtl = crtl;
+        this.img = img;
     }
     BoardClown.prototype.init = function () {
         var size = this.size[0] * this.size[0];
@@ -368,10 +379,9 @@ var BoardClown = (function (_super) {
 var BoardMinesweeper = (function (_super) {
     __extends(BoardMinesweeper, _super);
     function BoardMinesweeper(id, size, autoGen) {
-        var _this = _super.call(this, id, size, autoGen) || this;
-        _this.paint = function () {
+        _super.call(this, id, size, autoGen);
+        this.paint = function () {
         };
-        return _this;
     }
     BoardMinesweeper.prototype.init = function () {
         this.paint();

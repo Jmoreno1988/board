@@ -17,13 +17,15 @@ class Board2048 extends Board {
         this.crtl.record = 0;
         // Rellenamos el tablero
         // dos nuemros '2' en dos posiciones aleatorias del tablero
-        var auxArray = [];
+        var auxArray: number[] = [];
 
         for (var i = 0; i < this.level * this.level; i++) {
             auxArray.push(0);
         }
 
+        // BORRAR 
         this.inflate(auxArray);
+
 
         var r1 = Helper.ranMinMax(1, this.size[0]);
         var r2 = Helper.ranMinMax(1, this.size[1]);
@@ -33,8 +35,11 @@ class Board2048 extends Board {
             var r4 = Helper.ranMinMax(1, this.size[1]);
         } while (r1 == r3 || r2 == r4)
 
-        this.cellSetValue(r1, r2, 2);
-        this.cellSetValue(r3, r4, 2);
+        //this.cellSetValue(r1, r2, 2);
+        //this.cellSetValue(r3, r4, 2);
+
+        this.cellSetValue(1, 1, 1024);
+        this.cellSetValue(1, 4, 1024);
 
         // Asociamos las escuchas 
         document.onkeydown = this.handlerKey.bind(this);
@@ -82,6 +87,28 @@ class Board2048 extends Board {
             setTimeout(function () {
                 this.generateCell();
             }.bind(this), 100);
+        else {
+            setTimeout(function () {
+                this.paint();
+
+                if(this.isWin()) {
+                    // Lanzar ventana con mensaje felicitacion
+                    this.crtl.showResult();
+                    console.log("ganaaa")
+                } else {
+                    // Lanzar ventana con mensaje de derrota
+                    this.crtl.showResult();
+                    console.log("pierdeeee")
+                }
+    
+                // Guardar record si procesa
+                //
+
+                // Salir
+                //
+
+            }.bind(this), 100);
+        }
 
         this.paint();
     }
@@ -201,7 +228,7 @@ class Board2048 extends Board {
     public generateCell = function () {
         var auxArray = this.getBoardInSimpleArray();
         var newNumber = Math.random() > 0.9 ? 4 : 2;
-        var voidCells = [];
+        var voidCells: any = [];
         var random = Helper.ranMinMax(0, voidCells.length - 1);
 
         for (var i = 0; i < auxArray.length; i++)
@@ -241,8 +268,7 @@ class Board2048 extends Board {
         var auxArray = this.getBoardInSimpleArray();
 
         for (var i = 0; i < auxArray.length; i++)
-            if (auxArray[i].cell == 2048) {
-                console.log("WIN!!!!!!!!!")
+            if (auxArray[i].cell >= 2048) {
                 return true;
             }
 

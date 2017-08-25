@@ -2,8 +2,8 @@ Todo List
 =========
 
     - 2048:
-        * Pantalla victoria/derrota
         * Saber cuando se acaba la partida
+        * Pantalla victoria/derrota
         * Records
     
     - Clown:

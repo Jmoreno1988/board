@@ -58,7 +58,7 @@ class Board {
         var a = 0, e = 0;
 
         for (var i = 0; i < arr.length; i++) {
-            var aux = arr[i]
+            var aux = arr[i];
             this.boardArray[a][e] = aux;
             e++;
 
