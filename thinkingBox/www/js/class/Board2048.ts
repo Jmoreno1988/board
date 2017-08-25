@@ -228,6 +228,9 @@ class Board2048 extends Board {
             }
         }
         console.log(isLost)
+
+        // Comprobar si no hay casillas vacias
+        // Comprobar si se puede hacer algun movimiento en alguna direccion
         return isLost;
     }
 
