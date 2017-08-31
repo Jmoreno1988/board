@@ -75,8 +75,8 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
             sessionService.set("progress2048", {
                 score3x3: 0,
                 score4x4: 0,
-                score5x5: 0,
                 score6x6: 0,
+                score8x8: 0
             });
         }
     }])

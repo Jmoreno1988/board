@@ -112,12 +112,12 @@ GameCal.prototype.isFinish = function() {
 
 GameCal.prototype.checkResult = function (option) {
     if (this.difficulty == "master") {
+        
         if (this.options[option - 1] === this.unknown) {
             this.listScores.push(this.score);
             this.totalScore += this.score;
             this.score = 1000;
             this.level++;
-
             if (this.isFinish()) {
                 this.finish();
             } else {
@@ -132,10 +132,11 @@ GameCal.prototype.checkResult = function (option) {
             this.newRound();
             this.generateMove();
             this.pullInfo();
-
+    
             if (this.isFinish()) 
-                this.finish();
+                    this.finish();
         }
+        return;
     }
 
     if (this.options[option - 1] === this.result) {
