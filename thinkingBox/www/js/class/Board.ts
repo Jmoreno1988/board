@@ -82,12 +82,12 @@ class Board {
     /**
      * Devuelve el tablero como un array e una dimension
      */
-    public getBoardInSimpleArray() { 
+    public getBoardInSimpleArray() {
         var aux: any[] = [];
 
-        for(var i = 0; i < this.boardArray.length; i++)
-            for(var a = 0; a < this.boardArray[i].length; a++)
-                aux.push({cell: this.boardArray[i][a], pos: [i, a]})
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++)
+                aux.push({ cell: this.boardArray[i][a], pos: [i, a] })
 
         return aux;
     }
@@ -95,17 +95,18 @@ class Board {
 
     // Eventos a celdas individuales
     // Eventos a celdas colectivo
-    protected onAll = function(event: any, callback: any) {
+    protected onAll = function (event: any, callback: any) {
         for (var i = 0; i < this.boardArray.length; i++)
-            for (var a = 0; a < this.boardArray[i].length; a++) 
-                this.boardArray[i][a].addEventListener(event, callback);
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                var value = this.boardArray[i][a];
+            }
     }
 
     // Getters & Setters
     public getBoard() {
         return this.boardArray;
     }
-    public setBoard(newBoard: any [][]) {
+    public setBoard(newBoard: any[][]) {
         this.boardArray = newBoard;
     }
 }

@@ -76,6 +76,20 @@ class Board2048 extends Board {
             setTimeout(function () {
                 this.generateCell();
             }.bind(this), 100);
+        else {
+            setTimeout(function () {
+                this.paint();
+
+                if (this.isWin()) {
+                    // Lanzar ventana con mensaje felicitacion
+                    this.crtl.showResult(true, this.score);
+                } else {
+                    // Lanzar ventana con mensaje de derrota
+                    this.crtl.showResult(false, this.score);
+                }
+
+            }.bind(this), 100);
+        }
 
         this.paint();
     }
@@ -91,21 +105,13 @@ class Board2048 extends Board {
             setTimeout(function () {
                 this.paint();
 
-                if(this.isWin()) {
+                if (this.isWin()) {
                     // Lanzar ventana con mensaje felicitacion
-                    this.crtl.showResult();
-                    console.log("ganaaa")
+                    this.crtl.showResult(true, this.score);
                 } else {
                     // Lanzar ventana con mensaje de derrota
-                    this.crtl.showResult();
-                    console.log("pierdeeee")
+                    this.crtl.showResult(false, this.score);
                 }
-    
-                // Guardar record si procesa
-                //
-
-                // Salir
-                //
 
             }.bind(this), 100);
         }
@@ -229,15 +235,17 @@ class Board2048 extends Board {
         var auxArray = this.getBoardInSimpleArray();
         var newNumber = Math.random() > 0.9 ? 4 : 2;
         var voidCells: any = [];
-        var random = Helper.ranMinMax(0, voidCells.length - 1);
-
+        
         for (var i = 0; i < auxArray.length; i++)
             if (auxArray[i].cell == 0)
                 voidCells.push(auxArray[i]);
-
-        var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
-        console.log(pos)
-        this.boardArray[pos[0]][pos[1]] = newNumber;
+        
+        var random = Helper.ranMinMax(0, voidCells.length - 1);
+        
+        if (voidCells.length > 0) {
+            var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
+            this.boardArray[pos[0]][pos[1]] = newNumber;
+        }
 
         this.paint();
     }
@@ -248,17 +256,69 @@ class Board2048 extends Board {
     public isLost() {
         var auxArray = this.getBoardInSimpleArray();
         var isLost = true;
+        var isBoardFull = true;
 
+        // Comprobar si hay casillas vacias
         for (var i = 0; i < auxArray.length; i++) {
             if (auxArray[i].cell == 0) {
-                isLost = false;
+                isBoardFull = false;
             }
         }
-        console.log(isLost)
 
-        // Comprobar si no hay casillas vacias
+        if (!isBoardFull) {
+            return false;
+        }
+        
         // Comprobar si se puede hacer algun movimiento en alguna direccion
-        return isLost;
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                var listChecks = [];
+                var value = this.boardArray[i][a];
+                var cellUp = null;
+                var cellDown = null;
+                var cellRight = null;
+                var cellLeft = null;
+                try { cellUp = this.boardArray[i + 1][a] || null; } catch (e) { }
+                try { cellDown = this.boardArray[i - 1][a] || null; } catch (e) { }
+                try { cellRight = this.boardArray[i][a - 1] || null; } catch (e) { }
+                try { cellLeft = this.boardArray[i][a + 1] || null; } catch (e) { }
+                
+                
+                if (cellUp) {
+                    if (value != cellUp)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                
+                if (cellDown) {
+                    if (value != cellDown)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                
+                if (cellRight) {
+                    if (value != cellRight)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                
+                if (cellLeft) {
+                    if (value != cellLeft)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                
+                for (var e = 0; e < listChecks.length; e++)
+                    if (listChecks[e] == false) // Si alguno igual existe movimiento posible y no termina la partida
+                        return false;
+                
+            }
+            
+        return true;
     }
 
     /**
@@ -318,8 +378,6 @@ class Board2048 extends Board {
 
     private updateScore(score: number) {
         this.score += score;
-        //this.crtl.score = this.score;
-        //console.log(this.crtl.score)
     }
 
     /* Getters & Setters */

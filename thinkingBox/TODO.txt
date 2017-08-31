@@ -2,9 +2,10 @@ Todo List
 =========
 
     - 2048:
-        * Saber cuando se acaba la partida
-        * Pantalla victoria/derrota
+     OK * Saber cuando se acaba la partida
+     OK * Pantalla victoria/derrota
         * Records
+        * Traduccion
     
     - Clown:
         * Buscar imagenes

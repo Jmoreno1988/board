@@ -7,8 +7,9 @@ var Board = (function () {
     function Board(id, size, autoGen) {
         this.onAll = function (event, callback) {
             for (var i = 0; i < this.boardArray.length; i++)
-                for (var a = 0; a < this.boardArray[i].length; a++)
-                    this.boardArray[i][a].addEventListener(event, callback);
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    var value = this.boardArray[i][a];
+                }
         };
         this.id = id;
         this.size = size;
@@ -86,19 +87,31 @@ var Board2048 = (function (_super) {
                 setTimeout(function () {
                     this.generateCell();
                 }.bind(_this), 100);
+            else {
+                setTimeout(function () {
+                    this.paint();
+                    if (this.isWin()) {
+                        this.crtl.showResult(true, this.score);
+                    }
+                    else {
+                        this.crtl.showResult(false, this.score);
+                    }
+                }.bind(_this), 100);
+            }
             _this.paint();
         };
         this.generateCell = function () {
             var auxArray = this.getBoardInSimpleArray();
             var newNumber = Math.random() > 0.9 ? 4 : 2;
             var voidCells = [];
-            var random = Helper.ranMinMax(0, voidCells.length - 1);
             for (var i = 0; i < auxArray.length; i++)
                 if (auxArray[i].cell == 0)
                     voidCells.push(auxArray[i]);
-            var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
-            console.log(pos);
-            this.boardArray[pos[0]][pos[1]] = newNumber;
+            var random = Helper.ranMinMax(0, voidCells.length - 1);
+            if (voidCells.length > 0) {
+                var pos = [voidCells[random].pos[0], voidCells[random].pos[1]];
+                this.boardArray[pos[0]][pos[1]] = newNumber;
+            }
             this.paint();
         };
         this.paint = function () {
@@ -175,12 +188,10 @@ var Board2048 = (function (_super) {
             setTimeout(function () {
                 this.paint();
                 if (this.isWin()) {
-                    this.crtl.showResult();
-                    console.log("ganaaa");
+                    this.crtl.showResult(true, this.score);
                 }
                 else {
-                    this.crtl.showResult();
-                    console.log("pierdeeee");
+                    this.crtl.showResult(false, this.score);
                 }
             }.bind(this), 100);
         }
@@ -269,13 +280,68 @@ var Board2048 = (function (_super) {
     Board2048.prototype.isLost = function () {
         var auxArray = this.getBoardInSimpleArray();
         var isLost = true;
+        var isBoardFull = true;
         for (var i = 0; i < auxArray.length; i++) {
             if (auxArray[i].cell == 0) {
-                isLost = false;
+                isBoardFull = false;
             }
         }
-        console.log(isLost);
-        return isLost;
+        if (!isBoardFull) {
+            return false;
+        }
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                var listChecks = [];
+                var value = this.boardArray[i][a];
+                var cellUp = null;
+                var cellDown = null;
+                var cellRight = null;
+                var cellLeft = null;
+                try {
+                    cellUp = this.boardArray[i + 1][a] || null;
+                }
+                catch (e) { }
+                try {
+                    cellDown = this.boardArray[i - 1][a] || null;
+                }
+                catch (e) { }
+                try {
+                    cellRight = this.boardArray[i][a - 1] || null;
+                }
+                catch (e) { }
+                try {
+                    cellLeft = this.boardArray[i][a + 1] || null;
+                }
+                catch (e) { }
+                if (cellUp) {
+                    if (value != cellUp)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                if (cellDown) {
+                    if (value != cellDown)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                if (cellRight) {
+                    if (value != cellRight)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                if (cellLeft) {
+                    if (value != cellLeft)
+                        listChecks.push(true);
+                    else
+                        listChecks.push(false);
+                }
+                for (var e = 0; e < listChecks.length; e++)
+                    if (listChecks[e] == false)
+                        return false;
+            }
+        return true;
     };
     Board2048.prototype.isWin = function () {
         var auxArray = this.getBoardInSimpleArray();
