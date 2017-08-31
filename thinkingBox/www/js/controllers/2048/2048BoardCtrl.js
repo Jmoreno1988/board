@@ -4,20 +4,25 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
         if (!bridgeService.data._2048SelectLevel)
             $state.go("2048SelectLevel");
 
+        var progress2048 = sessionService.get("progress2048");
         var level = bridgeService.data._2048SelectLevel;
         var b2048 = new Board2048("board1", [level, level], level, true, $scope);
         b2048.init();
 
         $scope.score = 0;
+        $scope.record = progress2048["score" + level + "x" + level];
         $scope.onSwipe = function (direction) {
             b2048.handlerSwipe(direction);
             $scope.score = b2048.getScore();
         }
 
         // Popup resultados
-        $scope.showResult = function (isWinner, result, isRecord) {
+        $scope.showResult = function (isWinner, result) {
             var l = sessionService.get("config").lenguage;
             var d = dictionary;
+            
+            if (result > progress2048["score" + level + "x" + level])
+                updateRecord(result);
 
             if (isWinner) {
                 var alertPopup = $ionicPopup.alert({
@@ -61,4 +66,11 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
 
         translate();
         // Fin Traduccion
+
+        // Update Record
+        function updateRecord(newRecord) {
+            var aux = sessionService.get("progress2048");
+            aux[["score" + level + "x" + level]] = newRecord;
+            sessionService.set("progress2048", aux);
+        }
     }])

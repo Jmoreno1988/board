@@ -6,8 +6,8 @@ Todo List
     - 2048:
      OK * Saber cuando se acaba la partida
      OK * Pantalla victoria/derrota
-        * Records
-        * Traduccion
+     OK * Records
+     OK * Traduccion
     
     - Clown:
         * Buscar imagenes

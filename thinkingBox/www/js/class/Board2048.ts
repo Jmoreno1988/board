@@ -35,8 +35,8 @@ class Board2048 extends Board {
             var r4 = Helper.ranMinMax(1, this.size[1]);
         } while (r1 == r3 || r2 == r4)
 
-        //this.cellSetValue(r1, r2, 2);
-        //this.cellSetValue(r3, r4, 2);
+        this.cellSetValue(r1, r2, 2);
+        this.cellSetValue(r3, r4, 2);
 
         //this.cellSetValue(1, 1, 1024);
         //this.cellSetValue(1, 4, 1024);

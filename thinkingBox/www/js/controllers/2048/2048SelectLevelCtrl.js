@@ -1,7 +1,12 @@
 appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$state', 'bridgeService', '$ionicSideMenuDelegate', '$ionicPopup',
     function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate, $ionicPopup) {
-
+        var progress2048 = sessionService.get("progress2048");
+        
+        if(!progress2048)
+            createData2048();
+        
         var actualLevel = 4;
+        $scope.score = progress2048.score4x4;
 
         $scope.openSettings = function () {
             $ionicSideMenuDelegate.toggleLeft();
@@ -16,6 +21,7 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
                     document.getElementById("b8").classList.remove("colPressed");
                     document.getElementById("imgGrid").src = "img/2048/3x3.png";
                     actualLevel = 3;
+                    $scope.score = progress2048.score3x3;
                     break;
                 case "4":
                     document.getElementById("b3").classList.remove("colPressed");
@@ -24,6 +30,7 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
                     document.getElementById("b8").classList.remove("colPressed");
                     document.getElementById("imgGrid").src = "img/2048/4x4.png";
                     actualLevel = 4;
+                    $scope.score = progress2048.score4x4;
                     break;
                 case "6":
                     document.getElementById("b3").classList.remove("colPressed");
@@ -32,6 +39,7 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
                     document.getElementById("b8").classList.remove("colPressed");
                     document.getElementById("imgGrid").src = "img/2048/6x6.png";
                     actualLevel = 6;
+                    $scope.score = progress2048.score6x6;
                     break;
                 case "8":
                     document.getElementById("b3").classList.remove("colPressed");
@@ -40,6 +48,7 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
                     document.getElementById("b8").classList.add("colPressed");
                     document.getElementById("imgGrid").src = "img/2048/8x8.png";
                     actualLevel = 8;
+                    $scope.score = progress2048.score8x8;
                     break;
             }
         }
@@ -60,4 +69,14 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
 
         translate();
         // Fin Traduccion
+
+        // Creacion de Local Storage
+        function createData2048() {
+            sessionService.set("progress2048", {
+                score3x3: 0,
+                score4x4: 0,
+                score5x5: 0,
+                score6x6: 0,
+            });
+        }
     }])
