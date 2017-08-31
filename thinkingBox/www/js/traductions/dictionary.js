@@ -106,7 +106,13 @@ var dictionary = {
         "normal": "Normal",
         "hard": "Dificil",
         "veryHard": "Muy dificil",
-        "play": "Jugar"
+        "play": "Jugar",
+
+        // Quotes
+        "quoteChess": "El peón es la causa más frecuente de la derrota.",
+        "quoteSudoku": "El número gobierna el Universo.",
+        "quoteCalcu": "Mejor que de nuestro juicio, debemos fiarnos del cálculo algebraico.",
+        "quote2048": "Las matemáticas son la música de la razón.",
     },
     
     "en": {
@@ -214,6 +220,12 @@ var dictionary = {
         "normal": "Normal",
         "hard": "Hard",
         "veryHard": "Very Hard",
-        "play": "Play"
+        "play": "Play",
+
+        // Quotes
+        "quoteChess": "The pawn is the most frequent cause of defeat.",
+        "quoteSudoku": "The number rules the Universe.",
+        "quoteCalcu": "Rather than our judgment, we must rely on algebraic calculus.",
+        "quote2048": "Mathematics is the music of reason.",
     }
 }

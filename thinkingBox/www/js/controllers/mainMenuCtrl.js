@@ -1,7 +1,7 @@
 appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSideMenuDelegate', 'sessionService', '$http', '$ionicPopup', '$state', '$cordovaSocialSharing', '$ionicModal',
     function ($scope, $stateParams, $ionicSideMenuDelegate, sessionService, $http, $ionicPopup, $state, $cordovaSocialSharing, $ionicModal) {
         // $ionicSideMenuDelegate.canDragContent(false);
-
+        $scope.test = 2;
         $scope.versionApp = cfg.version;
 
         if (cfg.resetLocalStorage)
@@ -17,6 +17,8 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
             sessionService.set("infoUser", cfg.modelObjectLocalStorage.infoUser);
         }
 
+        translateCarousel();
+        
         document.getElementById("buttonPlayChess").addEventListener("click", function(){
             $scope.goTo('chess', 'chessSelectLevel');
         })
@@ -108,6 +110,7 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
                     break;
             }
         }
+        
 
         $scope.openModal = function () {
             $scope.modal.show();
@@ -129,7 +132,7 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
         });
 
         // Traduccion
-        $scope.$on("changeLanguage", function () { translate() });
+        $scope.$on("changeLanguage", function () { translate(); translateCarousel () });
 
         function translate() {
             Translator.translate($scope, sessionService.get("config").lenguage, [
@@ -150,5 +153,19 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
         }
 
         translate();
+
+        function translateCarousel (){
+            var l = sessionService.get("config").lenguage;
+            var d = dictionary;
+
+            document.getElementById("buttonPlayChess").textContent = Translator.get("mainMenuCtrl_play", l, d);
+            document.getElementById("buttonPlaySudoku").textContent = Translator.get("mainMenuCtrl_play", l, d);
+            document.getElementById("buttonPlayCalcu").textContent = Translator.get("mainMenuCtrl_play", l, d);
+            document.getElementById("buttonPlay2048").textContent = Translator.get("mainMenuCtrl_play", l, d);
+            document.getElementById("quoteChess").textContent = Translator.get("quoteChess", l, d);
+            document.getElementById("quoteSudoku").textContent = Translator.get("quoteSudoku", l, d);
+            document.getElementById("quoteCalcu").textContent = Translator.get("quoteCalcu", l, d);
+            document.getElementById("quote2048").textContent = Translator.get("quote2048", l, d);
+        }
         // Fin Traduccion
     }])
