@@ -54,6 +54,7 @@ appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$
 
         function translate() {
             Translator.translate($scope, sessionService.get("config").lenguage, [
+                "play"
             ]);
         }
 

@@ -16,12 +16,15 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
 
         // Popup resultados
         $scope.showResult = function (isWinner, result, isRecord) {
+            var l = sessionService.get("config").lenguage;
+            var d = dictionary;
+
             if (isWinner) {
                 var alertPopup = $ionicPopup.alert({
-                    title: 'Resultados',
-                    template: '<span style="text-align:center">Enhorabuena, tu puntuación ha sido de ' + result + ' pts.',
+                    title: Translator.get("_2048Board_results", l, d),
+                    template: Translator.get("_2048Board_congratulation", l, d) + " " + result + ' pts.',
                     buttons: [
-                        { text: 'Volver al menu' }
+                        { text: Translator.get("_2048Board_backMenu", l, d) }
                     ]
                 });
 
@@ -30,10 +33,10 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
                 });
             } else {
                 var alertPopup = $ionicPopup.alert({
-                    title: 'Resultados',
-                    template: 'Mala suerte, tu puntuación ha sido de ' + result + ' pts.',
+                    title: Translator.get("_2048Board_results", l, d),
+                    template: Translator.get("_2048Board_badLuck", l, d) + " " + result + ' pts.',
                     buttons: [
-                        { text: 'Volver al menu' }
+                        { text: Translator.get("_2048Board_backMenu", l, d) }
                     ]
                 });
 
@@ -52,6 +55,7 @@ appControllers.controller('2048BoardCtrl', ['$scope', 'sessionService', '$state'
 
         function translate() {
             Translator.translate($scope, sessionService.get("config").lenguage, [
+                "_2048Board_score"
             ]);
         }
 

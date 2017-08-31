@@ -96,10 +96,17 @@ var dictionary = {
         "sudokuResult_home": "MENU",
         "sudokuResult_levels": "NIVELES",
 
+        "_2048Board_score": "Puntuación",
+        "_2048Board_results": "Resultados",
+        "_2048Board_congratulation": "Enhorabuena, tu puntuación ha sido de",
+        "_2048Board_backMenu": "Volver al menu",
+        "_2048Board_badLuck": "Mala suerte, tu puntuación ha sido de",
+
         "easy": "Facil",
         "normal": "Normal",
         "hard": "Dificil",
-        "veryHard": "Muy dificil"
+        "veryHard": "Muy dificil",
+        "play": "Jugar"
     },
     
     "en": {
@@ -197,9 +204,16 @@ var dictionary = {
         "sudokuResult_home": "HOME",
         "sudokuResult_levels": "LEVELS",
 
+        "_2048Board_score": "Score",
+        "_2048Board_results": "Results",
+        "_2048Board_congratulation": "Congratulations, your score was",
+        "_2048Board_backMenu": "Back to menu",
+        "_2048Board_badLuck": "Bad luck, your score was",
+
         "easy": "Easy",
         "normal": "Normal",
         "hard": "Hard",
-        "veryHard": "Very Hard"
+        "veryHard": "Very Hard",
+        "play": "Play"
     }
 }

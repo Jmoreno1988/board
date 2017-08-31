@@ -38,8 +38,8 @@ class Board2048 extends Board {
         //this.cellSetValue(r1, r2, 2);
         //this.cellSetValue(r3, r4, 2);
 
-        this.cellSetValue(1, 1, 1024);
-        this.cellSetValue(1, 4, 1024);
+        //this.cellSetValue(1, 1, 1024);
+        //this.cellSetValue(1, 4, 1024);
 
         // Asociamos las escuchas 
         document.onkeydown = this.handlerKey.bind(this);

@@ -1,5 +1,7 @@
 Todo List
 =========
+    - Fallo calcu
+    - Traduccion MAIN MENU
 
     - 2048:
      OK * Saber cuando se acaba la partida

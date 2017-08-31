@@ -173,8 +173,6 @@ var Board2048 = (function (_super) {
             var r3 = Helper.ranMinMax(1, this.size[0]);
             var r4 = Helper.ranMinMax(1, this.size[1]);
         } while (r1 == r3 || r2 == r4);
-        this.cellSetValue(1, 1, 1024);
-        this.cellSetValue(1, 4, 1024);
         document.onkeydown = this.handlerKey.bind(this);
         this.paint();
     };
