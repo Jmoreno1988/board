@@ -113,6 +113,7 @@ var dictionary = {
         "quoteSudoku": "El número gobierna el Universo.",
         "quoteCalcu": "Mejor que de nuestro juicio, debemos fiarnos del cálculo algebraico.",
         "quote2048": "Las matemáticas son la música de la razón.",
+        "quotePuzzle": "Era horrible notar cosas en la cabeza y no saber cómo encajaban.",
     },
     
     "en": {
@@ -227,5 +228,6 @@ var dictionary = {
         "quoteSudoku": "The number rules the Universe.",
         "quoteCalcu": "Rather than our judgment, we must rely on algebraic calculus.",
         "quote2048": "Mathematics is the music of reason.",
+        "quotePuzzle": "It was horrible to notice things in the head and not know how they fit.",
     }
 }

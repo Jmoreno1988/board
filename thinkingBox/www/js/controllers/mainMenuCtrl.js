@@ -1,7 +1,7 @@
 appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSideMenuDelegate', 'sessionService', '$http', '$ionicPopup', '$state', '$cordovaSocialSharing', '$ionicModal',
     function ($scope, $stateParams, $ionicSideMenuDelegate, sessionService, $http, $ionicPopup, $state, $cordovaSocialSharing, $ionicModal) {
         // $ionicSideMenuDelegate.canDragContent(false);
-        sessionService.clear();
+
         $scope.versionApp = cfg.version;
 
         if (cfg.resetLocalStorage)
@@ -34,11 +34,11 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
         document.getElementById("buttonPlay2048").addEventListener("click", function(){
             $scope.goTo('2048', '2048SelectLevel');
         })
-/*
+
         document.getElementById("buttonPlayClown").addEventListener("click", function(){
             $scope.goTo('clown', 'clowSelectLevel');
         })
-*/
+
         $scope.goTo = function(game, page) {
             document.getElementById("card-icon-" +  game).style.margin = '-280px auto';
             document.getElementById("card-icon-" +  game).style.width = "80px";
@@ -162,8 +162,10 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
             document.getElementById("buttonPlaySudoku").textContent = Translator.get("mainMenuCtrl_play", l, d);
             document.getElementById("buttonPlayCalcu").textContent = Translator.get("mainMenuCtrl_play", l, d);
             document.getElementById("buttonPlay2048").textContent = Translator.get("mainMenuCtrl_play", l, d);
+            document.getElementById("buttonPlayClown").textContent = Translator.get("mainMenuCtrl_play", l, d);
             document.getElementById("quoteChess").textContent = Translator.get("quoteChess", l, d);
             document.getElementById("quoteSudoku").textContent = Translator.get("quoteSudoku", l, d);
+            document.getElementById("quotePuzzle").textContent = Translator.get("quotePuzzle", l, d);
             document.getElementById("quoteCalcu").textContent = Translator.get("quoteCalcu", l, d);
             document.getElementById("quote2048").textContent = Translator.get("quote2048", l, d);
         }

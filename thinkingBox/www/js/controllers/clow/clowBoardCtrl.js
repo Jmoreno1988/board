@@ -2,7 +2,7 @@ appControllers.controller('clowBoardCtrl', ['$scope', 'sessionService', '$state'
 function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate, $ionicPopup) {
 
     var level = bridgeService.data.clownSelectLevel;
-    var img = "split2";
+    var img = "split"+ bridgeService.data.clownSelectImage;
 
     var bClown = new BoardClown("board1",  [level, level], level, img, true);
     bClown.init();
