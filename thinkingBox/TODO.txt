@@ -1,13 +1,5 @@
 Todo List
 =========
-    - Fallo calcu
-OK  - Traduccion MAIN MENU
-
-    - 2048:
-     OK * Saber cuando se acaba la partida
-     OK * Pantalla victoria/derrota
-     OK * Records
-     OK * Traduccion
     
     - Clown:
         * Buscar imagenes

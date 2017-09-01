@@ -1,11 +1,12 @@
 appControllers.controller('2048SelectLevelCtrl', ['$scope', 'sessionService', '$state', 'bridgeService', '$ionicSideMenuDelegate', '$ionicPopup',
     function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate, $ionicPopup) {
-        var progress2048 = sessionService.get("progress2048");
-        
-        if(!progress2048)
+
+        if(!sessionService.get("progress2048"))
             createData2048();
-        
+
+        var progress2048 = sessionService.get("progress2048");
         var actualLevel = 4;
+        
         $scope.score = progress2048.score4x4;
 
         $scope.openSettings = function () {
