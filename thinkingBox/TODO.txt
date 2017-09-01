@@ -1,5 +1,5 @@
 Todo List
 =========
-    
+    - Poner a true Admob
     - Clown:
         * Buscar imagenes

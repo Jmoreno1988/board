@@ -5,7 +5,7 @@
         }
 
         .imgGrid {
-            width: 60%;
+            width: 100%;
             margin: 0 auto;
             text-align: center;
             box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
@@ -13,10 +13,13 @@
             transition: all .2s ease;
         }
 
+        #imgBig{
+            width: 60%;
+        }
+
         .imgSelect {
-            width: 70%!important;
-            box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)!important;
-            transform: translate(0, -10%);
+            width: 100%!important;
+            transform: translate(0, -30%);
         }
 
         .colum {
@@ -36,17 +39,28 @@
     </ion-nav-buttons>
 
     <ion-content padding="true" class="has-header">
-        <div style="text-align: center"><br><br>
+            <br>
+        <div style="text-align: center">
             <img id="imgBig" class="imgGrid" src="img/clow/split1/split1.jpeg"></img>
 
-        </div> <br>
+        </div> <br> <br>
 
         <div class="row" style="text-align: center">
             <div class="col" ng-click="changeImage('1')"><img id="imgGrid1" class="imgGrid imgSelect imgCarousel" src="img/clow/split1/split1.jpeg"></img></div>
             <div class="col" ng-click="changeImage('2')"><img id="imgGrid2" class="imgGrid imgCarousel " src="img/clow/split2/split2.jpeg"></img></div>
             <div class="col" ng-click="changeImage('3')"><img id="imgGrid3" class="imgGrid imgCarousel" src="img/clow/split3/split3.jpeg"></img></div>
             <div class="col" ng-click="changeImage('4')"><img id="imgGrid4" class="imgGrid imgCarousel" src="img/clow/split4/split4.jpeg"></img></div>
+            <div class="col" ng-click="changeImage('1')"><img id="imgGrid5" class="imgGrid imgCarousel" src="img/clow/split1/split1.jpeg"></img></div>
+            <div class="col" ng-click="changeImage('2')"><img id="imgGrid6" class="imgGrid imgCarousel " src="img/clow/split2/split2.jpeg"></img></div>
         </div>
+        <div class="row" style="text-align: center">
+                <div class="col" ng-click="changeImage('1')"><img id="imgGrid1" class="imgGrid imgSelect imgCarousel" src="img/clow/split1/split1.jpeg"></img></div>
+                <div class="col" ng-click="changeImage('2')"><img id="imgGrid2" class="imgGrid imgCarousel " src="img/clow/split2/split2.jpeg"></img></div>
+                <div class="col" ng-click="changeImage('3')"><img id="imgGrid3" class="imgGrid imgCarousel" src="img/clow/split3/split3.jpeg"></img></div>
+                <div class="col" ng-click="changeImage('4')"><img id="imgGrid4" class="imgGrid imgCarousel" src="img/clow/split4/split4.jpeg"></img></div>
+                <div class="col" ng-click="changeImage('1')"><img id="imgGrid5" class="imgGrid imgCarousel" src="img/clow/split1/split1.jpeg"></img></div>
+                <div class="col" ng-click="changeImage('2')"><img id="imgGrid6" class="imgGrid imgCarousel " src="img/clow/split2/split2.jpeg"></img></div>
+            </div>
 
         <br>
         
