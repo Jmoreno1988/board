@@ -58,7 +58,7 @@ function initApp() {
 
     AdMob.createBanner( {
         adId: admobid.banner, 
-        isTesting: true,
+        isTesting: true, // Production in True!!!
         overlap: false, 
         offsetTopBar: false, 
         position: AdMob.AD_POSITION.BOTTOM_CENTER,

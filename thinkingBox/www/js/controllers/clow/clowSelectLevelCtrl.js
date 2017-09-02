@@ -8,6 +8,18 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
         $ionicSideMenuDelegate.toggleLeft();
     }
 
+    $(document).ready(function () {
+        $('.carouselClown').slick({
+            dots: true,
+            infinite: false,
+            speed: 300,
+            slidesToShow: 6,
+            slidesToScroll: 6,
+            centerMode: false,
+            variableWidth: false
+        });
+    });
+
     $scope.changeLevel = function (level) {
         switch (level) {
             case "3":
