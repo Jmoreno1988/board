@@ -34,7 +34,6 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
                 Helper.node("b4").classList.add("colPressed");
                 Helper.node("b6").classList.remove("colPressed");
                 Helper.node("b8").classList.remove("colPressed");
-                //Helper.node("imgGrid").src = "img/2048/4x4.png";
                 actualLevel = 4;
                 break;
             case "6":
@@ -42,7 +41,6 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
                 Helper.node("b4").classList.remove("colPressed");
                 Helper.node("b6").classList.add("colPressed");
                 Helper.node("b8").classList.remove("colPressed");
-                //Helper.node("imgGrid").src = "img/2048/6x6.png";
                 actualLevel = 6;
                 break;
             case "8":
@@ -50,11 +48,19 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
                 Helper.node("b4").classList.remove("colPressed");
                 Helper.node("b6").classList.remove("colPressed");
                 Helper.node("b8").classList.add("colPressed");
-                //Helper.node("imgGrid").src = "img/2048/8x8onic .png";
                 actualLevel = 8;
                 break;
         }
     }
+
+    Helper.node("imgGrid1").addEventListener("click", function() {$scope.changeImage('1')})
+    Helper.node("imgGrid2").addEventListener("click", function() {$scope.changeImage('2')})
+    Helper.node("imgGrid3").addEventListener("click", function() {$scope.changeImage('3')})
+    Helper.node("imgGrid4").addEventListener("click", function() {$scope.changeImage('4')})
+    Helper.node("imgGrid5").addEventListener("click", function() {$scope.changeImage('5')})
+    Helper.node("imgGrid6").addEventListener("click", function() {$scope.changeImage('6')})
+    Helper.node("imgGrid7").addEventListener("click", function() {$scope.changeImage('7')})
+    Helper.node("imgGrid8").addEventListener("click", function() {$scope.changeImage('8')})
 
     $scope.changeImage = function(number) {
         var listImgs = document.querySelectorAll(".imgCarousel");
@@ -65,10 +71,6 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
         Helper.node("imgGrid" + number).classList.add("imgSelect");
         Helper.node("imgBig").src= "img/clow/split" + number + "/split" + number + ".jpeg";
         actualImg = number;
-    }
-
-    function node(id) {
-        return document.getElementById(id);
     }
 
     $scope.goToGame = function() {

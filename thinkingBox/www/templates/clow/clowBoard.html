@@ -8,7 +8,7 @@
             float: left;
             text-align: center;
             background-color: #f5f5f5;
-            color: rgba(1,1,1,0);
+            color: rgba(1, 1, 1, 0);
             border: 1px solid #f5f5f5;
             background-size: 100%;
         }
@@ -37,59 +37,15 @@
             clear: both;
         }
 
+        .buttonClown {
+            width: 80%;
+            background-color: #387ef5;
+            color: white;
+        }
+
         #board {
             width: 90%;
-            height: 90%;
             margin: 0 auto;
-        }
-
-        .void {
-            background-color: #f5f5f5;
-            color: #f5f5f5;
-        }
-
-        ._2 {
-            background-color: #8BC34A;
-        }
-
-        ._4 {
-            background-color: #4CAF50;
-        }
-
-        ._8 {
-            background-color: #009688;
-        }
-
-        ._16 {
-            background-color: #00BCD4;
-        }
-
-        ._32 {
-            background-color: #03A9F4;
-        }
-
-        ._64 {
-            background-color: #2196F3;
-        }
-
-        ._128 {
-            background-color: #3F51B5;
-        }
-
-        ._256 {
-            background-color: #673AB7;
-        }
-
-        ._512 {
-            background-color: #9C27B0;
-        }
-
-        ._1024 {
-            background-color: #E91E63;
-        }
-
-        ._2048 {
-            background-color: #f44336;
         }
     </style>
 
@@ -98,10 +54,18 @@
     </ion-nav-buttons>
 
     <ion-content padding="true" class="has-header">
-            <div class="row">
-                    <div class="col" style="text-align: center">Time<br>--</div>
-                </div>
+
         <div id="board" on-swipe-left="onSwipe('left')" on-swipe-right="onSwipe('right')" on-swipe-up="onSwipe('up')" on-swipe-down="onSwipe('down')"></div>
+
+        <div class="row">
+            <div class="col" style="text-align: center;">
+                <button class="button buttonClown icon ion-images"></button>
+            </div>
+            <div class="col" style="text-align: center;">
+                <button class="button buttonClown icon ion-help"></button>
+            </div>
+        </div>
+
     </ion-content>
 
 </ion-view>

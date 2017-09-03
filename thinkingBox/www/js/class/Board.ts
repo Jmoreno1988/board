@@ -98,7 +98,7 @@ class Board {
     protected onAll = function (event: any, callback: any) {
         for (var i = 0; i < this.boardArray.length; i++)
             for (var a = 0; a < this.boardArray[i].length; a++) {
-                var value = this.boardArray[i][a];
+                this.boardArray[i][a].addEventListener(event, callback);
             }
     }
 

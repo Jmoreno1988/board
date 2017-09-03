@@ -24,9 +24,11 @@ class BoardClown extends Board {
         }
 
         this.inflate(listNodes);
+        this.randomCells();
         this.paint();
+        
+        this.onAll("click", this.moveCells.bind(this));
 
-        this.onAll("click", this.moveCells.bind(this))
     }
 
     /**
@@ -58,6 +60,25 @@ class BoardClown extends Board {
 
         this.paint();
 
+    }
+
+    private randomCells() {
+        var aLength = this.boardArray[0].length;
+        var totalL = this.getBoardInSimpleArray().length;
+        var interractions = totalL * 3;
+        
+        for(var i = 0; i < interractions; i++) {
+            var r1 = Helper.ranMinMax(0, aLength - 1);
+            var r2 = Helper.ranMinMax(0, aLength - 1);
+            var r3 = Helper.ranMinMax(0, aLength - 1);
+            var r4 = Helper.ranMinMax(0, aLength - 1);
+
+            var cell1 = this.boardArray[r1][r2];
+            var cell2 = this.boardArray[r1][r2];
+
+            console.log(cell1)
+            
+        }
     }
 
     private getIndexCellByNum = function (num: number) {

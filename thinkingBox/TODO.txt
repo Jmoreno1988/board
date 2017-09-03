@@ -1,5 +1,7 @@
 Todo List
 =========
-    - Poner a true Admob
     - Clown:
-        * Buscar imagenes
+        * Panel aleatorio
+        * Animacion para aleatorio
+        * Boton para ver foto original
+        * Boton para ver orden de las imagenes
