@@ -431,31 +431,28 @@ var BoardClown = (function (_super) {
     BoardClown.prototype.init = function () {
         var size = this.size[0] * this.size[0];
         var listNodes = [];
+        var w = (document.getElementById("board").offsetWidth * 0.9) / this.level;
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
             n.innerHTML = i;
             listNodes.push(n);
+            n.style.width = w + "px";
+            n.style.height = w + "px";
         }
         this.inflate(listNodes);
         this.randomCells();
         this.paint();
         this.onAll("click", this.moveCells.bind(this));
+        setTimeout(this.rotateBoard.bind(this), 500);
+        document.getElementById("imgResult").style.width = w * this.level + "px";
+        document.getElementById("imgResult").style.height = w * this.level + "px";
+        document.getElementById("board").style.width = w * this.level + "px";
+    };
+    BoardClown.prototype.rotateBoard = function () {
+        document.getElementById("imgResult").classList.add("goTo");
     };
     BoardClown.prototype.randomCells = function () {
-        var aLength = this.boardArray[0].length;
-        var totalL = this.getBoardInSimpleArray().length;
-        var interractions = totalL * 3;
-        for (var i = 0; i < interractions; i++) {
-            var r1 = Helper.ranMinMax(0, aLength - 1);
-            var r2 = Helper.ranMinMax(0, aLength - 1);
-            var r3 = Helper.ranMinMax(0, aLength - 1);
-            var r4 = Helper.ranMinMax(0, aLength - 1);
-            var cell1 = this.boardArray[r1][r2];
-            var cell2 = this.boardArray[r1][r2];
-            this.boardArray[r1][r2] = 1;
-            console.log(cell1);
-        }
     };
     return BoardClown;
 }(Board));

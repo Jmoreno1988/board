@@ -15,12 +15,15 @@ class BoardClown extends Board {
     public init() {
         var size = this.size[0] * this.size[0];
         var listNodes: any = [];
+        var w = (document.getElementById("board").offsetWidth*0.9)/this.level;
 
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
             (<any>n).innerHTML = i;
             listNodes.push(n);
+            n.style.width = w + "px";
+            n.style.height = w + "px";
         }
 
         this.inflate(listNodes);
@@ -29,6 +32,39 @@ class BoardClown extends Board {
         
         this.onAll("click", this.moveCells.bind(this));
 
+        setTimeout(this.rotateBoard.bind(this), 500);
+
+        document.getElementById("imgResult").style.width = w * this.level+ "px";
+        document.getElementById("imgResult").style.height = w * this.level+ "px";
+        document.getElementById("board").style.width = w * this.level+ "px";
+        //document.getElementById("board").style.marginTop = "-" + (w * this.level) + "px";
+     
+        
+        
+
+    }
+
+    private rotateBoard() {
+        /*
+        var list = document.querySelectorAll(".cell");
+        
+        for(var i = 0; i < list.length; i++) {
+            var time = "";
+            if(i < 10)
+                time = "0." + i +"s";
+            else 
+                time = "1." + i +"s";
+
+            (<any>list[i]).style.transitionDuration = time;
+            list[i].classList.add("rotate");
+        }
+        */
+        document.getElementById("imgResult").classList.add("goTo");
+        /*
+        document.getElementById("imgResult").style.transition = "all 2s ease";
+        document.getElementById("board").style.transition = "all 2s ease";
+        document.getElementById("board").classList.toggle("rotate");
+        */
     }
 
     /**
@@ -63,6 +99,7 @@ class BoardClown extends Board {
     }
 
     private randomCells() {
+        /*
         var aLength = this.boardArray[0].length;
         var totalL = this.getBoardInSimpleArray().length;
         var interractions = totalL * 3;
@@ -79,6 +116,7 @@ class BoardClown extends Board {
             console.log(cell1)
             
         }
+        */
     }
 
     private getIndexCellByNum = function (num: number) {

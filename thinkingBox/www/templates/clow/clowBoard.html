@@ -11,6 +11,8 @@
             color: rgba(1, 1, 1, 0);
             border: 1px solid #f5f5f5;
             background-size: 100%;
+            transform-style: preserve-3d;
+            transform-origin: right center;
         }
 
         .cell3 {
@@ -19,8 +21,9 @@
         }
 
         .cell4 {
+            /* width: 25%;
             height: 21.5vw;
-            width: 25%;
+           */
         }
 
         .cell6 {
@@ -45,7 +48,16 @@
 
         #board {
             width: 90%;
-            margin: 0 auto;
+            margin: -333px auto;
+        }
+
+
+        #imgResult {
+            text-align: center;
+            transition: all 2s ease;
+        }
+        .goTo {
+            margin-left: -50%!important;
         }
     </style>
 
@@ -55,8 +67,16 @@
 
     <ion-content padding="true" class="has-header">
 
+        <div id="imgResult"><img width="100%" src="img/clow/split1/split1.jpeg"></img></div>
         <div id="board" on-swipe-left="onSwipe('left')" on-swipe-right="onSwipe('right')" on-swipe-up="onSwipe('up')" on-swipe-down="onSwipe('down')"></div>
 
+
+
+
+        <!--
+        <div id="imgResult"><img width="100%" src="img/clow/split1/split1.jpeg"></img></div>
+        <div id="board" on-swipe-left="onSwipe('left')" on-swipe-right="onSwipe('right')" on-swipe-up="onSwipe('up')" on-swipe-down="onSwipe('down')"></div>
+            ->>
         <div class="row">
             <div class="col" style="text-align: center;">
                 <button class="button buttonClown icon ion-images"></button>
