@@ -383,6 +383,8 @@ var BoardClown = (function (_super) {
                 this.boardArray[index[0]][index[1]].innerHTML = "0";
             }
             this.paint();
+            if (this.isWin())
+                this.crtl.endGame();
         };
         _this.getIndexCellByNum = function (num) {
             for (var i = 0; i < this.boardArray.length; i++)
@@ -431,7 +433,7 @@ var BoardClown = (function (_super) {
     BoardClown.prototype.init = function () {
         var size = this.size[0] * this.size[0];
         var listNodes = [];
-        var w = (document.getElementById("board").offsetWidth * 0.9) / this.level;
+        var w = (document.getElementById("board").offsetWidth * 0.95) / this.level;
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
@@ -441,18 +443,55 @@ var BoardClown = (function (_super) {
             n.style.height = w + "px";
         }
         this.inflate(listNodes);
-        this.randomCells();
         this.paint();
         this.onAll("click", this.moveCells.bind(this));
-        setTimeout(this.rotateBoard.bind(this), 500);
         document.getElementById("imgResult").style.width = w * this.level + "px";
         document.getElementById("imgResult").style.height = w * this.level + "px";
         document.getElementById("board").style.width = w * this.level + "px";
+        document.getElementById("board").style.height = w * this.level + "px";
+        document.getElementById("flip-container").style.height = w * this.level + "px";
+        setTimeout(this.flip.bind(this), 500);
     };
-    BoardClown.prototype.rotateBoard = function () {
-        document.getElementById("imgResult").classList.add("goTo");
+    BoardClown.prototype.flip = function () {
+        Helper.node("flipper").classList.toggle("flipping");
     };
-    BoardClown.prototype.randomCells = function () {
+    BoardClown.prototype.randomCells = function (isInit) {
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                var r1 = Helper.ranMinMax(0, this.boardArray.length - 1);
+                var r2 = Helper.ranMinMax(0, this.boardArray[0].length - 1);
+                var cell1 = this.boardArray[i][a];
+                var cell2 = this.boardArray[r1][r2];
+                var auxCell = null;
+                auxCell = cell2.innerHTML;
+                cell2.innerHTML = cell1.innerHTML;
+                cell1.innerHTML = auxCell;
+            }
+        if (isInit)
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++)
+                    if (this.boardArray[i][a].innerHTML == 0) {
+                        var cell1 = this.boardArray[i][a];
+                        var cell2 = this.boardArray[0][0];
+                        var auxCell = null;
+                        auxCell = cell2.innerHTML;
+                        cell2.innerHTML = cell1.innerHTML;
+                        cell1.innerHTML = auxCell;
+                    }
+    };
+    BoardClown.prototype.isWin = function () {
+        var aux = 0;
+        var max = (this.level * this.level) - 1;
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                if (this.boardArray[i][a].innerHTML == aux)
+                    if (aux == max)
+                        return true;
+                    else
+                        aux++;
+                else
+                    return false;
+            }
     };
     return BoardClown;
 }(Board));
@@ -480,4 +519,10 @@ var Helper = (function () {
     };
     return Helper;
 }());
+function l(msg) {
+    console.log(msg);
+}
+function a(msg) {
+    alert(msg);
+}
 //# sourceMappingURL=allClass.js.map

@@ -9,3 +9,11 @@ class Helper {
     }
 }
 
+function l(msg:string) {
+    console.log(msg);
+}
+
+function a(msg:string) {
+    alert(msg);
+}
+

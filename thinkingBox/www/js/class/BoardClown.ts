@@ -4,7 +4,7 @@ class BoardClown extends Board {
     private crtl: any;
     private img: string;
 
-    constructor(id: string, size: number[], level: number, img:string, autoGen: boolean, crtl: any) {
+    constructor(id: string, size: number[], level: number, img: string, autoGen: boolean, crtl: any) {
         super(id, size, autoGen);
 
         this.level = level;
@@ -15,7 +15,7 @@ class BoardClown extends Board {
     public init() {
         var size = this.size[0] * this.size[0];
         var listNodes: any = [];
-        var w = (document.getElementById("board").offsetWidth*0.9)/this.level;
+        var w = (document.getElementById("board").offsetWidth * 0.95) / this.level;
 
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
@@ -27,49 +27,27 @@ class BoardClown extends Board {
         }
 
         this.inflate(listNodes);
-        this.randomCells();
+        //this.randomCells(true);
         this.paint();
-        
+
         this.onAll("click", this.moveCells.bind(this));
 
-        setTimeout(this.rotateBoard.bind(this), 500);
+        document.getElementById("imgResult").style.width = w * this.level + "px";
+        document.getElementById("imgResult").style.height = w * this.level + "px";
+        document.getElementById("board").style.width = w * this.level + "px";
+        document.getElementById("board").style.height = w * this.level + "px";
+        document.getElementById("flip-container").style.height = w * this.level + "px";
 
-        document.getElementById("imgResult").style.width = w * this.level+ "px";
-        document.getElementById("imgResult").style.height = w * this.level+ "px";
-        document.getElementById("board").style.width = w * this.level+ "px";
-        //document.getElementById("board").style.marginTop = "-" + (w * this.level) + "px";
-     
-        
-        
-
+        setTimeout(this.flip.bind(this), 500);
     }
 
-    private rotateBoard() {
-        /*
-        var list = document.querySelectorAll(".cell");
-        
-        for(var i = 0; i < list.length; i++) {
-            var time = "";
-            if(i < 10)
-                time = "0." + i +"s";
-            else 
-                time = "1." + i +"s";
-
-            (<any>list[i]).style.transitionDuration = time;
-            list[i].classList.add("rotate");
-        }
-        */
-        document.getElementById("imgResult").classList.add("goTo");
-        /*
-        document.getElementById("imgResult").style.transition = "all 2s ease";
-        document.getElementById("board").style.transition = "all 2s ease";
-        document.getElementById("board").classList.toggle("rotate");
-        */
+    public flip() {
+        Helper.node("flipper").classList.toggle("flipping");
     }
 
     /**
- * 
- */
+    * 
+    */
     private moveCells = function (evt: any) {
         var cellNum = evt.target.innerHTML;
         var index = this.getIndexCellByNum(cellNum);
@@ -93,30 +71,40 @@ class BoardClown extends Board {
             this.boardArray[index[0]][index[1]].innerHTML = "0";
         }
 
-
         this.paint();
-
+        
+        // Mostrar PopUp fin de partida
+        if(this.isWin()) 
+            this.crtl.endGame();
+        
     }
 
-    private randomCells() {
-        /*
-        var aLength = this.boardArray[0].length;
-        var totalL = this.getBoardInSimpleArray().length;
-        var interractions = totalL * 3;
+    private randomCells(isInit?: boolean) {
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                var r1 = Helper.ranMinMax(0, this.boardArray.length - 1)
+                var r2 = Helper.ranMinMax(0, this.boardArray[0].length - 1)
+                var cell1 = this.boardArray[i][a];
+                var cell2 = this.boardArray[r1][r2];
+                var auxCell = null;
+
+                auxCell = cell2.innerHTML;
+                cell2.innerHTML = cell1.innerHTML;
+                cell1.innerHTML = auxCell;
+            }
+
+        if (isInit)
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++)
+                    if (this.boardArray[i][a].innerHTML == 0) {
+                        var cell1 = this.boardArray[i][a];
+                        var cell2 = this.boardArray[0][0];
+                        var auxCell = null;
         
-        for(var i = 0; i < interractions; i++) {
-            var r1 = Helper.ranMinMax(0, aLength - 1);
-            var r2 = Helper.ranMinMax(0, aLength - 1);
-            var r3 = Helper.ranMinMax(0, aLength - 1);
-            var r4 = Helper.ranMinMax(0, aLength - 1);
-
-            var cell1 = this.boardArray[r1][r2];
-            var cell2 = this.boardArray[r1][r2];
-
-            console.log(cell1)
-            
-        }
-        */
+                        auxCell = cell2.innerHTML;
+                        cell2.innerHTML = cell1.innerHTML;
+                        cell1.innerHTML = auxCell;
+                    }
     }
 
     private getIndexCellByNum = function (num: number) {
@@ -128,6 +116,22 @@ class BoardClown extends Board {
 
         return null;
     }
+
+    private isWin() {
+        var aux = 0;
+        var max = (this.level * this.level) - 1;
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                if(this.boardArray[i][a].innerHTML == aux)
+                    if(aux == max)
+                        return true;
+                    else        
+                        aux++;
+                else
+                    return false;
+            }
+    }
+
 
     /**
      * Pinta el tablero
@@ -142,7 +146,7 @@ class BoardClown extends Board {
                 if (aux != this.size[1]) {
                     var cell = this.cell(i + 1, a + 1)
                     var num = this.boardArray[i][a].innerHTML;
-                    var url = "img/clow/" + this.img + "/"+ this.level +"x"+ this.level +"/" + num + ".jpg";
+                    var url = "img/clow/" + this.img + "/" + this.level + "x" + this.level + "/" + num + ".jpg";
 
                     cell.style.backgroundImage = "url(" + url + ")";
                     nodeBoard.appendChild(cell);
@@ -150,7 +154,7 @@ class BoardClown extends Board {
                 } else {
                     var cell = this.cell(i + 1, a + 1);
                     var num = this.boardArray[i][a].innerHTML;
-                    var url = "img/clow/" + this.img + "/"+ this.level +"x"+ this.level +"/" + num + ".jpg";
+                    var url = "img/clow/" + this.img + "/" + this.level + "x" + this.level + "/" + num + ".jpg";
                     cell.setAttribute("class", "cell noFloat cell" + this.level);
                     cell.style.backgroundImage = "url(" + url + ")";
                     nodeBoard.appendChild(cell);

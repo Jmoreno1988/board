@@ -1,4 +1,4 @@
-<ion-view hide-back-button="false" title="clow" id="clowSelectLevel" cache-view="false">
+<ion-view hide-back-button="false" title="clow" id="clowSelectLevel" cache-view="true">
     <style>
         .grey {
             color: #666;
@@ -40,11 +40,10 @@
     </ion-nav-buttons>
 
     <ion-content padding="true" class="has-header">
-            <br>
-        <div style="text-align: center">
+        <div style="text-align: center; margin: 10px 0 10px 0;">
             <img id="imgBig" class="imgGrid" src="img/clow/split1/split1.jpeg"></img>
+        </div>
 
-        </div> <br> <br>
         <div style="width: 100%">
             <div class="carouselClown" data-slick='{"slidesToShow": 4, "slidesToScroll": 4}'>
                 <div class="col" ng-click="changeImage('1')"><img id="imgGrid1" class="imgGrid imgCarousel imgSelect" src="img/clow/split1/split1.jpeg"></img></div>
@@ -58,15 +57,13 @@
             </div>
         </div>
         
-        <br>
         
-        <div class="row" style="text-align: center">
+        <div class="row" style="text-align: center; margin: 0px 0 20px 0;">
             <div id="b3" class="col colum" ng-click="changeLevel('3')">3x3</div>
             <div id="b4" class="col colum colPressed" ng-click="changeLevel('4')">4x4</div>
             <div id="b6" class="col colum" ng-click="changeLevel('6')">6x6</div>
             <div id="b8" class="col colum" ng-click="changeLevel('8')">8x8</div>
         </div>
-        <br>
 
         <button class="button button-block button-positive" ng-click="goToGame()"> PLAY! </button>
               
