@@ -102,6 +102,9 @@ var dictionary = {
         "_2048Board_backMenu": "Volver al menu",
         "_2048Board_badLuck": "Mala suerte, tu puntuación ha sido de",
 
+        "clownBoard_results": "Fin de la partida",
+        "clownBoard_congratulation": "Felicidades, has terminado el puzzle!",
+
         "easy": "Facil",
         "normal": "Normal",
         "hard": "Dificil",
@@ -216,6 +219,9 @@ var dictionary = {
         "_2048Board_congratulation": "Congratulations, your score was",
         "_2048Board_backMenu": "Back to menu",
         "_2048Board_badLuck": "Bad luck, your score was",
+
+        "clownBoard_results": "Game over",
+        "clownBoard_congratulation": "Congratulations, you've finished the puzzle!",
 
         "easy": "Easy",
         "normal": "Normal",

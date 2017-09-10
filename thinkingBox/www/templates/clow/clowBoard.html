@@ -48,7 +48,7 @@
 
         #board {
             width: 100%;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
             border-radius: 3px;
         }
 
@@ -56,7 +56,7 @@
         #imgResult {
             text-align: center;
             transition: all 2s ease;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
             border-radius: 3px;
         }
         /* FLIP */
@@ -66,11 +66,12 @@
             perspective: 1000px;
         }
         /* flip the pane when hovered */
-/*
+        /*
         .flip-container.hover .flipper {
             transform: rotateY(180deg);
         }
 */
+
         .flipping {
             transform: rotateY(180deg);
         }
@@ -114,6 +115,11 @@
         .button:hover {
             color: white!important;
         }
+
+        .popup-buttons .button-default {
+            background-color: #387ef5;
+            color: white;
+        }
     </style>
 
     <ion-nav-buttons side="right" class="has-header">
@@ -121,11 +127,14 @@
     </ion-nav-buttons>
 
     <ion-content padding="true" class="has-header">
+        <div style="text-align:center">{{labelTimer}}</div>
+
         <div id="flip-container" class="flip-container" style="margin-top:10px;">
             <div id="flipper" class="flipper">
                 <div class="front">
                     <!-- front content -->
-                    <div id="imgResult"><img width="100%" ng-src="{{srcImg}}"></img></div>
+                    <div id="imgResult"><img width="100%" ng-src="{{srcImg}}"></img>
+                    </div>
                 </div>
                 <div class="back">
                     <!-- back content -->
@@ -135,10 +144,10 @@
         </div>
 
         <div class="row" style="margin-top: 15px;">
-                <div class="col" style="text-align: center;">
-                    <button class="button buttonClown icon ion-images" style="width: 90%" ng-click="flipImg()"></button>
-                </div>
+            <div class="col" style="text-align: center;">
+                <button class="button buttonClown icon ion-images" style="width: 90%" ng-click="flipImg()"></button>
             </div>
+        </div>
 
     </ion-content>
 

@@ -361,8 +361,11 @@ var Board2048 = (function (_super) {
 }(Board));
 var BoardClown = (function (_super) {
     __extends(BoardClown, _super);
-    function BoardClown(id, size, level, img, autoGen, crtl) {
+    function BoardClown(id, size, level, img, autoGen, crtl, interval) {
         var _this = _super.call(this, id, size, autoGen) || this;
+        _this.step = function () {
+            this.crtl.updateTimer(this.timer.getTime());
+        };
         _this.moveCells = function (evt) {
             var cellNum = evt.target.innerHTML;
             var index = this.getIndexCellByNum(cellNum);
@@ -383,8 +386,10 @@ var BoardClown = (function (_super) {
                 this.boardArray[index[0]][index[1]].innerHTML = "0";
             }
             this.paint();
-            if (this.isWin())
+            if (this.isWin()) {
+                this.timer.finish();
                 this.crtl.endGame();
+            }
         };
         _this.getIndexCellByNum = function (num) {
             for (var i = 0; i < this.boardArray.length; i++)
@@ -428,6 +433,9 @@ var BoardClown = (function (_super) {
         _this.level = level;
         _this.crtl = crtl;
         _this.img = img;
+        _this.interval = interval;
+        _this.timeMilli = 0;
+        _this.timer = new TimerTs(crtl, interval, _this.timeMilli);
         return _this;
     }
     BoardClown.prototype.init = function () {
@@ -443,6 +451,7 @@ var BoardClown = (function (_super) {
             n.style.height = w + "px";
         }
         this.inflate(listNodes);
+        this.randomCells(true);
         this.paint();
         this.onAll("click", this.moveCells.bind(this));
         document.getElementById("imgResult").style.width = w * this.level + "px";
@@ -451,6 +460,8 @@ var BoardClown = (function (_super) {
         document.getElementById("board").style.height = w * this.level + "px";
         document.getElementById("flip-container").style.height = w * this.level + "px";
         setTimeout(this.flip.bind(this), 500);
+        this.timer.sCallback = this.step.bind(this);
+        this.timer.init();
     };
     BoardClown.prototype.flip = function () {
         Helper.node("flipper").classList.toggle("flipping");
@@ -525,4 +536,67 @@ function l(msg) {
 function a(msg) {
     alert(msg);
 }
+var TimerTs = (function () {
+    function TimerTs(controller, $interval, initMilli) {
+        this.fCallback = function () { return 1; };
+        this.sCallback = function () { return 1; };
+        this.init = function () {
+            this.isActive = true;
+            var auxTime = new Date();
+            this.initMilliseconds = auxTime.getTime() - this.saveTime;
+            this.auxStep = auxTime.getTime();
+            this.theInterval = this.$interval(this.update.bind(this), 100);
+            this.ctrl.$on('$destroy', this.cancelTimer.bind(this));
+        };
+        this.getTime = function () {
+            var auxTime = new Date();
+            var millis = auxTime.getTime() - this.initMilliseconds;
+            if (millis >= 0)
+                return this.millisToMinutesAndSeconds(millis);
+            else
+                return "0:00";
+        };
+        this.getTimeMillis = function () {
+            var auxTime = new Date();
+            var millis = auxTime.getTime() - this.initMilliseconds;
+            return millis;
+        };
+        this.cancelTimer = function () {
+            if (this.theInterval)
+                this.$interval.cancel(this.theInterval);
+        };
+        this.update = function () {
+            this.ctrl.time = this.getTime();
+            this.sCallback();
+        };
+        this.getIsActive = function () {
+            return this.isActive;
+        };
+        this.reset = function () {
+            this.isActive = true;
+            var auxTime = new Date();
+            this.initMilliseconds = auxTime.getTime();
+        };
+        this.add = function (millis) {
+            this.limitTime += millis;
+        };
+        this.millisToMinutesAndSeconds = function (millis) {
+            var minutes = Math.floor(millis / 60000);
+            var seconds = parseInt(((millis % 60000) / 1000).toFixed(0));
+            return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+        };
+        this.$interval = $interval;
+        this.ctrl = controller;
+        this.saveTime = (typeof initMilli == 'number') ? initMilli : 0;
+        this.initMilliseconds = null;
+        this.isActive = false;
+        this.theInterval = null;
+        this.auxStep = 0;
+    }
+    TimerTs.prototype.finish = function () {
+        this.fCallback = function () { return 1; };
+        this.sCallback = function () { return 1; };
+    };
+    return TimerTs;
+}());
 //# sourceMappingURL=allClass.js.map

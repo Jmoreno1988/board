@@ -168,6 +168,7 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
             document.getElementById("quotePuzzle").textContent = Translator.get("quotePuzzle", l, d);
             document.getElementById("quoteCalcu").textContent = Translator.get("quoteCalcu", l, d);
             document.getElementById("quote2048").textContent = Translator.get("quote2048", l, d);
+            document.getElementById("quotePuzzle").textContent = Translator.get("quotePuzzle", l, d);
         }
         // Fin Traduccion
     }])

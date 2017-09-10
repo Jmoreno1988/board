@@ -2,14 +2,20 @@ class BoardClown extends Board {
 
     private level: number;
     private crtl: any;
+    private interval: any;
     private img: string;
+    private timer: TimerTs;
+    private timeMilli: number;
 
-    constructor(id: string, size: number[], level: number, img: string, autoGen: boolean, crtl: any) {
+    constructor(id: string, size: number[], level: number, img: string, autoGen: boolean, crtl: any, interval: any) {
         super(id, size, autoGen);
 
         this.level = level;
         this.crtl = crtl;
         this.img = img;
+        this.interval = interval;
+        this.timeMilli = 0;
+        this.timer = new TimerTs(crtl, interval, this.timeMilli);
     }
 
     public init() {
@@ -27,7 +33,7 @@ class BoardClown extends Board {
         }
 
         this.inflate(listNodes);
-        //this.randomCells(true);
+        this.randomCells(true);
         this.paint();
 
         this.onAll("click", this.moveCells.bind(this));
@@ -39,6 +45,13 @@ class BoardClown extends Board {
         document.getElementById("flip-container").style.height = w * this.level + "px";
 
         setTimeout(this.flip.bind(this), 500);
+
+        this.timer.sCallback = this.step.bind(this);
+        this.timer.init();
+    }
+
+    private step = function() {
+        this.crtl.updateTimer(this.timer.getTime());
     }
 
     public flip() {
@@ -74,9 +87,10 @@ class BoardClown extends Board {
         this.paint();
         
         // Mostrar PopUp fin de partida
-        if(this.isWin()) 
+        if(this.isWin()) {
+            this.timer.finish();
             this.crtl.endGame();
-        
+        }        
     }
 
     private randomCells(isInit?: boolean) {

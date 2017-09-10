@@ -84,6 +84,7 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
 
     function translate() {
         Translator.translate($scope, sessionService.get("config").lenguage, [
+            "play"
         ]);
     }
 

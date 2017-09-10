@@ -30,11 +30,6 @@ appControllers.controller('sudokuBoardCtrl', ['$scope', 'bridgeService', '$ionic
             document.getElementById("erase").classList.add("cliked");
             gameSudoku.toggleEraseMode(true);
         }
-/*
-        $scope.isCorrect = function() {
-            console.log(gameSudoku.isCorrect())
-        }
-*/
         $scope.solveAll = function() {
             gameSudoku.solveAll();
         }
@@ -42,12 +37,6 @@ appControllers.controller('sudokuBoardCtrl', ['$scope', 'bridgeService', '$ionic
         $scope.solveStep = function() {
             gameSudoku.solveStep();
         }
-/*
-        $scope.$on('$destroy', function () {
-            console.log("guardo")
-            gameSudoku.saveAll();
-        });
-*/
         function unSelect() {
             var listButtons = document.querySelectorAll(".buttonSetNumbers");
 
