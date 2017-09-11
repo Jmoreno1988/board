@@ -39,6 +39,10 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
             $scope.goTo('clown', 'clowSelectLevel');
         })
 
+        document.getElementById("buttonPlayMines").addEventListener("click", function(){
+            $scope.goTo('mines', 'minesSelectLevel');
+        })
+
         $scope.goTo = function(game, page) {
             document.getElementById("card-icon-" +  game).style.margin = '-280px auto';
             document.getElementById("card-icon-" +  game).style.width = "80px";
@@ -118,10 +122,12 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
         $scope.closeModal = function () {
             $scope.modal.hide();
         };
+        /*
         // Cleanup the modal when we're done with it!
         $scope.$on('$destroy', function () {
             $scope.modal.remove();
         });
+        */
         // Execute action on hide modal
         $scope.$on('modal.hidden', function () {
             // Execute action

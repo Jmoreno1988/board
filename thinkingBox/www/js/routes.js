@@ -106,6 +106,20 @@ angular.module('app.routes', [])
         controller: 'clowBoardCtrl'
       }) 
       //End clow
+
+      // Init Mines
+      $stateProvider.state('minesSelectLevel', {
+        url: '/pageminesSelectLevel',
+        templateUrl: 'templates/mines/minesSelectLevel.html',
+        controller: 'minesSelectLevelCtrl'
+      })
+
+      $stateProvider.state('minesBoard', {
+        url: '/pageminesBoard',
+        templateUrl: 'templates/mines/minesBoard.html',
+        controller: 'minesBoardCtrl'
+      }) 
+      //End mines
       
       $stateProvider.state('test', {
         url: '/test',
