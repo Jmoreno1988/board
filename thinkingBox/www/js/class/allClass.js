@@ -506,6 +506,138 @@ var BoardClown = (function (_super) {
     };
     return BoardClown;
 }(Board));
+var BoardMines = (function (_super) {
+    __extends(BoardMines, _super);
+    function BoardMines(id, size, level, mines, autoGen, crtl, interval) {
+        var _this = _super.call(this, id, size, autoGen) || this;
+        _this.step = function () {
+            this.crtl.updateTimer(this.timer.getTime());
+        };
+        _this.moveCells = function (evt) {
+            var cellNum = evt.target.innerHTML;
+            var index = this.getIndexCellByNum(cellNum);
+            var cell = this.boardArray[index[0]][index[1]];
+            cell.style.backgroundImage = 'url("img/mines/flag.svg")';
+            cell.style.backgroundColor = 'white';
+        };
+        _this.getIndexCellByNum = function (num) {
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    if (this.boardArray[i][a].innerHTML == num)
+                        return [i, a];
+                }
+            return null;
+        };
+        _this.paint = function () {
+            var nodeBoard = document.getElementById("board");
+            nodeBoard.innerHTML = "";
+            var aux = 0;
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    if (aux != this.size[1]) {
+                        var cell = this.cell(i + 1, a + 1);
+                        var num = this.boardArray[i][a].innerHTML;
+                        nodeBoard.appendChild(cell);
+                        aux++;
+                    }
+                    else {
+                        var cell = this.cell(i + 1, a + 1);
+                        var num = this.boardArray[i][a].innerHTML;
+                        nodeBoard.appendChild(cell);
+                        aux = 1;
+                    }
+                }
+            for (var i = 0; i < this.boardArray.length; i++)
+                for (var a = 0; a < this.boardArray[i].length; a++) {
+                    if (this.boardArray[i][a].innerHTML == "0") {
+                        this.boardArray[i][a].style.backgroundImage = "";
+                    }
+                }
+        };
+        _this.level = level;
+        _this.crtl = crtl;
+        _this.interval = interval;
+        _this.timeMilli = 0;
+        _this.timer = new TimerTs(crtl, interval, _this.timeMilli);
+        _this.mines = mines;
+        return _this;
+    }
+    BoardMines.prototype.init = function () {
+        var size = this.size[0] * this.size[0];
+        var listNodes = [];
+        var w = (document.getElementById("board").offsetWidth * 0.95) / this.level;
+        for (var i = 0; i < size; i++) {
+            var n = document.createElement("div");
+            n.setAttribute("class", "cell cell" + this.level);
+            n.innerHTML = '';
+            listNodes.push(n);
+            n.style.width = w + "px";
+            n.style.height = w + "px";
+        }
+        this.generateMines(listNodes);
+        this.inflate(listNodes);
+        this.generateNumbers();
+        this.paint();
+        document.getElementById("board").style.width = w * this.level + "px";
+        document.getElementById("board").style.height = w * this.level + "px";
+        this.timer.sCallback = this.step.bind(this);
+        this.timer.init();
+    };
+    BoardMines.prototype.generateMines = function (listNodes) {
+        var totalMines = this.mines;
+        do {
+            var rand = Helper.ranMinMax(0, listNodes.length - 1);
+            if (listNodes[rand].innerHTML != 'x') {
+                listNodes[rand].innerHTML = 'x';
+                totalMines = totalMines - 1;
+            }
+        } while (totalMines != 0);
+    };
+    BoardMines.prototype.generateNumbers = function () {
+        for (var i = 0; i < this.boardArray.length; i++)
+            for (var a = 0; a < this.boardArray[i].length; a++) {
+                if (this.boardArray[i][a].innerHTML == 'x') {
+                    this.boardArray[i][a].style.backgroundImage = 'url("img/mines/numbers/x.svg")';
+                    continue;
+                }
+                var cell = this.boardArray[i][a];
+                var n = 0;
+                var length_1 = this.boardArray[i].length - 1;
+                var cellDown = i - 1 >= 0 ? this.boardArray[i - 1][a] : null;
+                var cellUp = i + 1 <= length_1 ? this.boardArray[i + 1][a] : null;
+                var cellRight = a - 1 >= 0 ? this.boardArray[i][a - 1] : null;
+                var cellLeft = a + 1 <= length_1 ? this.boardArray[i][a + 1] : null;
+                var cellDownRight = i - 1 >= 0 && a - 1 >= 0 ? this.boardArray[i - 1][a - 1] : null;
+                var cellUpLeft = i + 1 <= length_1 && a + 1 <= length_1 ? this.boardArray[i + 1][a + 1] : null;
+                var cellDownLeft = i - 1 >= 0 && a + 1 <= length_1 ? this.boardArray[i - 1][a + 1] : null;
+                var cellUpRight = i + 1 <= length_1 && a - 1 <= length_1 ? this.boardArray[i + 1][a - 1] : null;
+                if (cellUp && cellUp.innerHTML == 'x')
+                    n++;
+                if (cellDown && cellDown.innerHTML == 'x')
+                    n++;
+                if (cellLeft && cellLeft.innerHTML == 'x')
+                    n++;
+                if (cellRight && cellRight.innerHTML == 'x')
+                    n++;
+                if (cellDownRight && cellDownRight.innerHTML == 'x')
+                    n++;
+                if (cellUpLeft && cellUpLeft.innerHTML == 'x')
+                    n++;
+                if (cellDownLeft && cellDownLeft.innerHTML == 'x')
+                    n++;
+                if (cellUpRight && cellUpRight.innerHTML == 'x')
+                    n++;
+                if (n > 0) {
+                    cell.style.backgroundImage = 'url("img/mines/numbers/' + n + '.svg")';
+                    cell.innerHTML = n;
+                }
+                else {
+                    cell.innerHTML = '';
+                }
+            }
+    };
+    return BoardMines;
+}(Board));
 var BoardMinesweeper = (function (_super) {
     __extends(BoardMinesweeper, _super);
     function BoardMinesweeper(id, size, autoGen) {

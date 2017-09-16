@@ -1,6 +1,32 @@
 <ion-view hide-back-button="false" title="clow" id="minesBoard" cache-view="true">
     <style>
- 
+        .grey {
+            color: #666;
+        }
+
+        .cell {
+            float: left;
+            text-align: center;
+            background-color: #eee;
+            color: rgba(1, 1, 1, 0);
+            border: 1px solid white;
+            background-size: 100%;
+            transform-style: preserve-3d;
+            transform-origin: right center;
+        }
+
+        #board {
+            width: 100%;
+        }
+
+        .button:hover {
+            color: white!important;
+        }
+
+        .popup-buttons .button-default {
+            background-color: #387ef5;
+            color: white;
+        }
     </style>
 
     <ion-nav-buttons side="right" class="has-header">
@@ -8,7 +34,24 @@
     </ion-nav-buttons>
 
     <ion-content padding="true" class="has-header">
-hi??
+        <div class="row" style="text-align: center;">
+            <div class="col">🚩 Flags</div>
+            <div class="col">🕑 Time</div>
+            <div class="col">✅ Swept Units</div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <div class="col">0</div>
+            <div class="col">{{labelTimer}}</div>
+            <div class="col">0</div>
+        </div>
+
+        <div id="board"></div>
+
+        <div class="row" style="margin-top: 15px;">
+            <div class="col" style="text-align: center;">
+                <button class="button buttonClown" style="width: 90%">🚩 Flags mode</button>
+            </div>
+        </div>
     </ion-content>
 
 </ion-view>

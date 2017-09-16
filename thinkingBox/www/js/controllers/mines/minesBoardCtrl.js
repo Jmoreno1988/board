@@ -1,11 +1,21 @@
 appControllers.controller('minesBoardCtrl', ['$scope', 'sessionService', '$state', 'bridgeService', '$ionicSideMenuDelegate', '$ionicPopup', '$interval',
 function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate, $ionicPopup, $interval) {
 
+    $scope.labelTimer = "--:--";
+    var level = 16;
+
+    var bMines = new BoardMines("board1", [level, level], level, 40,true, $scope, $interval);
+    bMines.init();
+
+    $scope.updateTimer = function (newValue) {
+        $scope.labelTimer = newValue;
+    }
+
+
     $scope.openSettings = function () {
         $ionicSideMenuDelegate.toggleLeft();
     }
     
-
     // Traduccion
     $scope.$on("changeLanguage", function () { translate() });
 
