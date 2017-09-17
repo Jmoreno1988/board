@@ -54,11 +54,13 @@ class Board {
     /**
      * Rellena el tablero por un array unidimensional si no llegan suficientes datos los espacios los rellena con nulls
      */
-    public inflate(arr: any[]) {
+    public inflate(arr: any[], setIds?: boolean) {
         var a = 0, e = 0;
 
         for (var i = 0; i < arr.length; i++) {
             var aux = arr[i];
+            aux.setAttribute('i', a);
+            aux.setAttribute('a', e);
             this.boardArray[a][e] = aux;
             e++;
 

@@ -35,10 +35,12 @@ var Board = (function () {
     Board.prototype.cellSetValue = function (N, M, value) {
         this.boardArray[N - 1][M - 1] = value;
     };
-    Board.prototype.inflate = function (arr) {
+    Board.prototype.inflate = function (arr, setIds) {
         var a = 0, e = 0;
         for (var i = 0; i < arr.length; i++) {
             var aux = arr[i];
+            aux.setAttribute('i', a);
+            aux.setAttribute('a', e);
             this.boardArray[a][e] = aux;
             e++;
             if (e == this.size[1]) {
@@ -517,16 +519,10 @@ var BoardMines = (function (_super) {
             var cellNum = evt.target.innerHTML;
             var index = this.getIndexCellByNum(cellNum);
             var cell = evt.target;
-            if (cell.innerHTML == 'x') {
-                console.log('Bumm!  Has perdido...');
-            }
-            else if (cell.innerHTML != '') {
-                cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
-                cell.style.backgroundColor = 'white';
-            }
-            else if (cell.innerHTML == '') {
-                cell.style.backgroundColor = 'white';
-            }
+            if (cell.innerHTML != '')
+                this.paintCell(cell);
+            else
+                this.clickInVoid(cell);
         };
         _this.getIndexCellByNum = function (num) {
             for (var i = 0; i < this.boardArray.length; i++)
@@ -578,6 +574,7 @@ var BoardMines = (function (_super) {
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
+            n.setAttribute("id_cell", i + "");
             n.style.backgroundColor = this.colors[Helper.ranMinMax(0, this.colors.length - 1)];
             n.innerHTML = '';
             listNodes.push(n);
@@ -585,7 +582,7 @@ var BoardMines = (function (_super) {
             n.style.height = w + "px";
         }
         this.generateMines(listNodes);
-        this.inflate(listNodes);
+        this.inflate(listNodes, true);
         this.generateNumbers();
         this.paint();
         this.onAll("click", this.clickCell.bind(this));
@@ -644,6 +641,190 @@ var BoardMines = (function (_super) {
                     cell.innerHTML = '';
                 }
             }
+    };
+    BoardMines.prototype.paintCell = function (cell) {
+        if (cell.innerHTML == 'x') {
+            console.log('Bumm!  Has perdido...');
+        }
+        else if (cell.innerHTML != '') {
+            cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
+            cell.style.backgroundColor = 'white';
+        }
+        else if (cell.innerHTML == '') {
+            cell.style.backgroundColor = 'white';
+        }
+    };
+    BoardMines.prototype.clickInVoid = function (cell) {
+        var idCell = cell.getAttribute('id_cell');
+        var listCellVoids = [];
+        var listCellsCheck = [cell];
+        var index = [parseInt(cell.getAttribute('i')), parseInt(cell.getAttribute('a'))];
+        this.paintCell(this.boardArray[index[0]][index[1]]);
+        try {
+            this.paintCell(this.boardArray[index[0] - 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] + 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0]][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0]][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] - 1][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] - 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] + 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] + 1][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] - 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] + 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0]][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0]][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] - 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] - 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] + 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] + 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] - 1]);
+        }
+        catch (e) { }
+        this.recursivo(listCellVoids, listCellsCheck);
+    };
+    BoardMines.prototype.recursivo = function (lCellVoids, lCellsCheck) {
+        var listCellVoids = lCellVoids;
+        var listCellsCheck = lCellsCheck;
+        var cell = listCellVoids[0];
+        var index = [parseInt(cell.getAttribute('i')), parseInt(cell.getAttribute('a'))];
+        listCellsCheck.push(cell);
+        for (var a_1 = 0; a_1 < listCellVoids.length; a_1++)
+            if (listCellVoids[a_1].getAttribute('id_cell') == cell.getAttribute('id_cell'))
+                listCellVoids.splice(a_1, 1);
+        this.paintCell(this.boardArray[index[0]][index[1]]);
+        try {
+            this.paintCell(this.boardArray[index[0] - 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] + 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0]][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0]][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] - 1][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] - 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] + 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            this.paintCell(this.boardArray[index[0] + 1][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] - 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] + 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1]]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0]][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0]][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] - 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] - 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] - 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] + 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] + 1]);
+        }
+        catch (e) { }
+        try {
+            if (this.boardArray[index[0] + 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] - 1]);
+        }
+        catch (e) { }
+        if (listCellVoids.length)
+            this.recursivo(listCellVoids, listCellsCheck);
+    };
+    BoardMines.prototype.isCheck = function (id, arr) {
+        var is = false;
+        for (var i = 0; i < arr.length; i++)
+            if (arr[i].getAttribute('id_cell') == id)
+                return true;
+        return is;
     };
     return BoardMines;
 }(Board));

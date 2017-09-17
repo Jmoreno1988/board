@@ -29,7 +29,8 @@ class BoardMines extends Board {
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
-            n.style.backgroundColor = this.colors[Helper.ranMinMax(0, this.colors.length-1)];
+            n.setAttribute("id_cell", i + "");
+            n.style.backgroundColor = this.colors[Helper.ranMinMax(0, this.colors.length - 1)];
             (<any>n).innerHTML = '';
             listNodes.push(n);
             n.style.width = w + "px";
@@ -37,7 +38,7 @@ class BoardMines extends Board {
         }
 
         this.generateMines(listNodes);
-        this.inflate(listNodes);
+        this.inflate(listNodes, true);
         this.generateNumbers();
         this.paint();
 
@@ -68,7 +69,7 @@ class BoardMines extends Board {
     private generateNumbers() {
         for (var i = 0; i < this.boardArray.length; i++)
             for (var a = 0; a < this.boardArray[i].length; a++) {
-                if (this.boardArray[i][a].innerHTML == 'x'){ 
+                if (this.boardArray[i][a].innerHTML == 'x') {
                     //this.boardArray[i][a].style.backgroundImage = 'url("img/mines/numbers/x.svg")';
                     continue;
                 }
@@ -95,7 +96,7 @@ class BoardMines extends Board {
                 if (cellUpRight && cellUpRight.innerHTML == 'x') n++;
 
 
-                
+
                 if (n > 0) {
                     //cell.style.backgroundImage = 'url("img/mines/numbers/' + n + '.svg")';
                     cell.innerHTML = n;
@@ -109,6 +110,17 @@ class BoardMines extends Board {
         this.crtl.updateTimer(this.timer.getTime());
     }
 
+    private paintCell(cell: HTMLElement) {
+        if (cell.innerHTML == 'x') {
+            console.log('Bumm!  Has perdido...');
+        } else if (cell.innerHTML != '') {
+            cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
+            cell.style.backgroundColor = 'white';
+        } else if (cell.innerHTML == '') {
+            cell.style.backgroundColor = 'white';
+        }
+    }
+
     /**
     * 
     */
@@ -117,14 +129,151 @@ class BoardMines extends Board {
         var index = this.getIndexCellByNum(cellNum);
         var cell = evt.target;
 
-        if(cell.innerHTML == 'x') {
-            console.log('Bumm!  Has perdido...');
-        } else if(cell.innerHTML != '') {
-            cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
-            cell.style.backgroundColor = 'white';
-        } else if(cell.innerHTML == '') {
-            cell.style.backgroundColor = 'white';
-        }
+        if (cell.innerHTML != '')
+            this.paintCell(cell);
+        else
+            this.clickInVoid(cell);
+    }
+
+    private clickInVoid(cell: HTMLElement) {
+        let idCell = cell.getAttribute('id_cell');
+        let listCellVoids = [];
+        let listCellsCheck = [cell]; // Celdas que no debe volver a guardar
+        let index = [parseInt(cell.getAttribute('i')), parseInt(cell.getAttribute('a'))];
+
+        this.paintCell(this.boardArray[index[0]][index[1]])
+        try { this.paintCell(this.boardArray[index[0] - 1][index[1]]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] + 1][index[1]]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0]][index[1] - 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0]][index[1] + 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] - 1][index[1] - 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] - 1][index[1] + 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] + 1][index[1] + 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] + 1][index[1] - 1]); } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] - 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1]]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] + 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1]]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0]][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] - 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0]][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] + 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] - 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] - 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] - 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] + 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] + 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] + 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] + 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] - 1])
+        } catch (e) { }
+
+        //console.log(listCellVoids)
+        this.recursivo(listCellVoids, listCellsCheck);
+    }
+
+    
+
+    private recursivo(lCellVoids: HTMLElement[], lCellsCheck: HTMLElement[]) {
+        let listCellVoids = lCellVoids;
+        let listCellsCheck = lCellsCheck; // Celdas que no debe volver a guardar
+        let cell = listCellVoids[0];
+        let index = [parseInt(cell.getAttribute('i')), parseInt(cell.getAttribute('a'))];
+        listCellsCheck.push(cell);
+        
+        for(let a = 0; a < listCellVoids.length; a++)
+            if(listCellVoids[a].getAttribute('id_cell') == cell.getAttribute('id_cell'))
+                listCellVoids.splice(a, 1);
+
+        this.paintCell(this.boardArray[index[0]][index[1]])
+        try { this.paintCell(this.boardArray[index[0] - 1][index[1]]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] + 1][index[1]]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0]][index[1] - 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0]][index[1] + 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] - 1][index[1] - 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] - 1][index[1] + 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] + 1][index[1] + 1]); } catch (e) { }
+        try { this.paintCell(this.boardArray[index[0] + 1][index[1] - 1]); } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] - 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1]]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] + 1][index[1]].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1]].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1]]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0]][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] - 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0]][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0]][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0]][index[1] + 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] - 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] - 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] - 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] - 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] - 1][index[1] + 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] + 1][index[1] + 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] + 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] + 1]);
+        } catch (e) { }
+
+        try {
+            if (this.boardArray[index[0] + 1][index[1] - 1].innerHTML == '' && !this.isCheck(this.boardArray[index[0] + 1][index[1] - 1].getAttribute('id_cell'), listCellsCheck))
+                listCellVoids.push(this.boardArray[index[0] + 1][index[1] - 1])
+        } catch (e) { }
+
+        if(listCellVoids.length)
+            this.recursivo(listCellVoids, listCellsCheck);
+    }
+
+
+
+
+
+    private isCheck(id: string, arr: HTMLElement[]) {
+        let is = false;
+
+        for(let i = 0; i < arr.length; i++) 
+            if(arr[i].getAttribute('id_cell') == id)
+                return true;
+
+        return is;
     }
 
     private getIndexCellByNum = function (num: number) {
