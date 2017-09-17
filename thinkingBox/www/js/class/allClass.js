@@ -513,12 +513,20 @@ var BoardMines = (function (_super) {
         _this.step = function () {
             this.crtl.updateTimer(this.timer.getTime());
         };
-        _this.moveCells = function (evt) {
+        _this.clickCell = function (evt) {
             var cellNum = evt.target.innerHTML;
             var index = this.getIndexCellByNum(cellNum);
-            var cell = this.boardArray[index[0]][index[1]];
-            cell.style.backgroundImage = 'url("img/mines/flag.svg")';
-            cell.style.backgroundColor = 'white';
+            var cell = evt.target;
+            if (cell.innerHTML == 'x') {
+                console.log('Bumm!  Has perdido...');
+            }
+            else if (cell.innerHTML != '') {
+                cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
+                cell.style.backgroundColor = 'white';
+            }
+            else if (cell.innerHTML == '') {
+                cell.style.backgroundColor = 'white';
+            }
         };
         _this.getIndexCellByNum = function (num) {
             for (var i = 0; i < this.boardArray.length; i++)
@@ -560,6 +568,7 @@ var BoardMines = (function (_super) {
         _this.timeMilli = 0;
         _this.timer = new TimerTs(crtl, interval, _this.timeMilli);
         _this.mines = mines;
+        _this.colors = ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B'];
         return _this;
     }
     BoardMines.prototype.init = function () {
@@ -569,6 +578,7 @@ var BoardMines = (function (_super) {
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
+            n.style.backgroundColor = this.colors[Helper.ranMinMax(0, this.colors.length - 1)];
             n.innerHTML = '';
             listNodes.push(n);
             n.style.width = w + "px";
@@ -578,6 +588,7 @@ var BoardMines = (function (_super) {
         this.inflate(listNodes);
         this.generateNumbers();
         this.paint();
+        this.onAll("click", this.clickCell.bind(this));
         document.getElementById("board").style.width = w * this.level + "px";
         document.getElementById("board").style.height = w * this.level + "px";
         this.timer.sCallback = this.step.bind(this);
@@ -597,7 +608,6 @@ var BoardMines = (function (_super) {
         for (var i = 0; i < this.boardArray.length; i++)
             for (var a = 0; a < this.boardArray[i].length; a++) {
                 if (this.boardArray[i][a].innerHTML == 'x') {
-                    this.boardArray[i][a].style.backgroundImage = 'url("img/mines/numbers/x.svg")';
                     continue;
                 }
                 var cell = this.boardArray[i][a];
@@ -628,7 +638,6 @@ var BoardMines = (function (_super) {
                 if (cellUpRight && cellUpRight.innerHTML == 'x')
                     n++;
                 if (n > 0) {
-                    cell.style.backgroundImage = 'url("img/mines/numbers/' + n + '.svg")';
                     cell.innerHTML = n;
                 }
                 else {

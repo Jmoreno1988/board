@@ -7,6 +7,7 @@ class BoardMines extends Board {
     private timer: TimerTs;
     private timeMilli: number;
     private mines: number;
+    private colors: string[];
 
     constructor(id: string, size: number[], level: number, mines: number, autoGen: boolean, crtl: any, interval: any) {
         super(id, size, autoGen);
@@ -17,6 +18,7 @@ class BoardMines extends Board {
         this.timeMilli = 0;
         this.timer = new TimerTs(crtl, interval, this.timeMilli);
         this.mines = mines;
+        this.colors = ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B'];
     }
 
     public init() {
@@ -27,6 +29,7 @@ class BoardMines extends Board {
         for (var i = 0; i < size; i++) {
             var n = document.createElement("div");
             n.setAttribute("class", "cell cell" + this.level);
+            n.style.backgroundColor = this.colors[Helper.ranMinMax(0, this.colors.length-1)];
             (<any>n).innerHTML = '';
             listNodes.push(n);
             n.style.width = w + "px";
@@ -38,7 +41,7 @@ class BoardMines extends Board {
         this.generateNumbers();
         this.paint();
 
-        //this.onAll("click", this.moveCells.bind(this));
+        this.onAll("click", this.clickCell.bind(this));
 
         document.getElementById("board").style.width = w * this.level + "px";
         document.getElementById("board").style.height = w * this.level + "px";
@@ -66,7 +69,7 @@ class BoardMines extends Board {
         for (var i = 0; i < this.boardArray.length; i++)
             for (var a = 0; a < this.boardArray[i].length; a++) {
                 if (this.boardArray[i][a].innerHTML == 'x'){ 
-                    this.boardArray[i][a].style.backgroundImage = 'url("img/mines/numbers/x.svg")';
+                    //this.boardArray[i][a].style.backgroundImage = 'url("img/mines/numbers/x.svg")';
                     continue;
                 }
 
@@ -94,7 +97,7 @@ class BoardMines extends Board {
 
                 
                 if (n > 0) {
-                    cell.style.backgroundImage = 'url("img/mines/numbers/' + n + '.svg")';
+                    //cell.style.backgroundImage = 'url("img/mines/numbers/' + n + '.svg")';
                     cell.innerHTML = n;
                 } else {
                     cell.innerHTML = '';
@@ -109,23 +112,19 @@ class BoardMines extends Board {
     /**
     * 
     */
-    private moveCells = function (evt: any) {
+    private clickCell = function (evt: any) {
         var cellNum = evt.target.innerHTML;
         var index = this.getIndexCellByNum(cellNum);
-        var cell = this.boardArray[index[0]][index[1]];
+        var cell = evt.target;
 
-        cell.style.backgroundImage = 'url("img/mines/flag.svg")';
-        cell.style.backgroundColor = 'white';
-
-        //this.paint();
-
-        /*
-        // Mostrar PopUp fin de partida
-        if (this.isWin()) {
-            this.timer.finish();
-            this.crtl.endGame();
+        if(cell.innerHTML == 'x') {
+            console.log('Bumm!  Has perdido...');
+        } else if(cell.innerHTML != '') {
+            cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
+            cell.style.backgroundColor = 'white';
+        } else if(cell.innerHTML == '') {
+            cell.style.backgroundColor = 'white';
         }
-        */
     }
 
     private getIndexCellByNum = function (num: number) {
