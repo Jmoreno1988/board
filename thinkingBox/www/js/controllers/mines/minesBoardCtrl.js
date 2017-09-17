@@ -12,6 +12,10 @@ function ($scope, sessionService, $state, bridgeService, $ionicSideMenuDelegate,
         $scope.labelTimer = newValue;
     }
 
+    $scope.changeMode =function() {
+        bMines.toggleMode();
+    }
+
     $scope.openSettings = function () {
         $ionicSideMenuDelegate.toggleLeft();
     }

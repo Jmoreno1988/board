@@ -519,10 +519,15 @@ var BoardMines = (function (_super) {
             var cellNum = evt.target.innerHTML;
             var index = this.getIndexCellByNum(cellNum);
             var cell = evt.target;
-            if (cell.innerHTML != '')
-                this.paintCell(cell);
-            else
-                this.clickInVoid(cell);
+            if (!this.isFlagMode) {
+                if (cell.innerHTML != '')
+                    this.paintCell(cell);
+                else
+                    this.clickInVoid(cell);
+            }
+            else {
+                this.paintFlag(cell);
+            }
         };
         _this.getIndexCellByNum = function (num) {
             for (var i = 0; i < this.boardArray.length; i++)
@@ -565,6 +570,7 @@ var BoardMines = (function (_super) {
         _this.timer = new TimerTs(crtl, interval, _this.timeMilli);
         _this.mines = mines;
         _this.colors = ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B'];
+        _this.isFlagMode = false;
         return _this;
     }
     BoardMines.prototype.init = function () {
@@ -643,6 +649,7 @@ var BoardMines = (function (_super) {
             }
     };
     BoardMines.prototype.paintCell = function (cell) {
+        console.log(cell.style.backgroundColor);
         if (cell.innerHTML == 'x') {
             console.log('Bumm!  Has perdido...');
         }
@@ -651,6 +658,12 @@ var BoardMines = (function (_super) {
             cell.style.backgroundColor = 'white';
         }
         else if (cell.innerHTML == '') {
+            cell.style.backgroundColor = 'white';
+        }
+    };
+    BoardMines.prototype.paintFlag = function (cell) {
+        if (cell.style.backgroundColor != 'white') {
+            cell.style.backgroundImage = 'url("img/mines/flag.svg")';
             cell.style.backgroundColor = 'white';
         }
     };
@@ -825,6 +838,9 @@ var BoardMines = (function (_super) {
             if (arr[i].getAttribute('id_cell') == id)
                 return true;
         return is;
+    };
+    BoardMines.prototype.toggleMode = function () {
+        this.isFlagMode = this.isFlagMode == true ? false : true;
     };
     return BoardMines;
 }(Board));

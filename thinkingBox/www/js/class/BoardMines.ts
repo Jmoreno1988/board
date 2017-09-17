@@ -8,6 +8,7 @@ class BoardMines extends Board {
     private timeMilli: number;
     private mines: number;
     private colors: string[];
+    private isFlagMode: boolean;
 
     constructor(id: string, size: number[], level: number, mines: number, autoGen: boolean, crtl: any, interval: any) {
         super(id, size, autoGen);
@@ -19,6 +20,7 @@ class BoardMines extends Board {
         this.timer = new TimerTs(crtl, interval, this.timeMilli);
         this.mines = mines;
         this.colors = ['#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3', '#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B'];
+        this.isFlagMode = false;
     }
 
     public init() {
@@ -111,12 +113,20 @@ class BoardMines extends Board {
     }
 
     private paintCell(cell: HTMLElement) {
+        console.log(cell.style.backgroundColor)
         if (cell.innerHTML == 'x') {
             console.log('Bumm!  Has perdido...');
         } else if (cell.innerHTML != '') {
             cell.style.backgroundImage = 'url("img/mines/numbers/' + cell.innerHTML + '.svg")';
             cell.style.backgroundColor = 'white';
         } else if (cell.innerHTML == '') {
+            cell.style.backgroundColor = 'white';
+        }
+    }
+
+    private paintFlag(cell: HTMLElement) {
+        if (cell.style.backgroundColor != 'white') {
+            cell.style.backgroundImage = 'url("img/mines/flag.svg")';
             cell.style.backgroundColor = 'white';
         }
     }
@@ -129,10 +139,14 @@ class BoardMines extends Board {
         var index = this.getIndexCellByNum(cellNum);
         var cell = evt.target;
 
-        if (cell.innerHTML != '')
-            this.paintCell(cell);
-        else
-            this.clickInVoid(cell);
+        if (!this.isFlagMode) {
+            if (cell.innerHTML != '')
+                this.paintCell(cell);
+            else
+                this.clickInVoid(cell);
+        } else {
+            this.paintFlag(cell);
+        }
     }
 
     private clickInVoid(cell: HTMLElement) {
@@ -191,21 +205,20 @@ class BoardMines extends Board {
                 listCellVoids.push(this.boardArray[index[0] + 1][index[1] - 1])
         } catch (e) { }
 
-        //console.log(listCellVoids)
         this.recursivo(listCellVoids, listCellsCheck);
     }
 
-    
 
+    // TODO: juntar con lo de arriba!!!!!
     private recursivo(lCellVoids: HTMLElement[], lCellsCheck: HTMLElement[]) {
         let listCellVoids = lCellVoids;
         let listCellsCheck = lCellsCheck; // Celdas que no debe volver a guardar
         let cell = listCellVoids[0];
         let index = [parseInt(cell.getAttribute('i')), parseInt(cell.getAttribute('a'))];
         listCellsCheck.push(cell);
-        
-        for(let a = 0; a < listCellVoids.length; a++)
-            if(listCellVoids[a].getAttribute('id_cell') == cell.getAttribute('id_cell'))
+
+        for (let a = 0; a < listCellVoids.length; a++)
+            if (listCellVoids[a].getAttribute('id_cell') == cell.getAttribute('id_cell'))
                 listCellVoids.splice(a, 1);
 
         this.paintCell(this.boardArray[index[0]][index[1]])
@@ -258,19 +271,16 @@ class BoardMines extends Board {
                 listCellVoids.push(this.boardArray[index[0] + 1][index[1] - 1])
         } catch (e) { }
 
-        if(listCellVoids.length)
+        if (listCellVoids.length)
             this.recursivo(listCellVoids, listCellsCheck);
     }
-
-
-
 
 
     private isCheck(id: string, arr: HTMLElement[]) {
         let is = false;
 
-        for(let i = 0; i < arr.length; i++) 
-            if(arr[i].getAttribute('id_cell') == id)
+        for (let i = 0; i < arr.length; i++)
+            if (arr[i].getAttribute('id_cell') == id)
                 return true;
 
         return is;
@@ -317,5 +327,9 @@ class BoardMines extends Board {
                     this.boardArray[i][a].style.backgroundImage = "";
                 }
             }
+    }
+
+    public toggleMode(){
+        this.isFlagMode = this.isFlagMode == true ? false : true;
     }
 }
