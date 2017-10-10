@@ -2,8 +2,6 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
     function ($scope, $stateParams, $ionicSideMenuDelegate, sessionService, $http, $ionicPopup, $state, $cordovaSocialSharing, $ionicModal) {
         // $ionicSideMenuDelegate.canDragContent(false);
 
-        $scope.versionApp = cfg.version;
-
         if (cfg.resetLocalStorage)
             sessionService.clear();
 

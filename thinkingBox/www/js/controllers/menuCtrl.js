@@ -1,6 +1,8 @@
 appControllers.controller('menuCtrl', ['$rootScope', '$scope', '$stateParams', 'sessionService', '$ionicPopup',
     function ($rootScope, $scope, $stateParams, sessionService, $ionicPopup, $cordovaSocialSharing) {
 
+        $scope.versionApp = cfg.version;
+
         $scope.goTo = function (page) {
             switch (page) {
                 case "removeAds":

@@ -1,7 +1,0 @@
-Todo List
-=========
-    - Clown:
-        * Panel aleatorio
-        * Animacion para aleatorio
-        * Boton para ver foto original
-        * Boton para ver orden de las imagenes
