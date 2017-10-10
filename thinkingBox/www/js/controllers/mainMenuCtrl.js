@@ -17,29 +17,12 @@ appControllers.controller('mainMenuCtrl', ['$scope', '$stateParams', '$ionicSide
 
         translateCarousel();
         
-        document.getElementById("buttonPlayChess").addEventListener("click", function(){
-            $scope.goTo('chess', 'chessSelectLevel');
-        })
-
-        document.getElementById("buttonPlaySudoku").addEventListener("click", function(){
-            $scope.goTo('sudoku', 'sudokuSelectLevel');
-        })
-
-        document.getElementById("buttonPlayCalcu").addEventListener("click", function(){
-            $scope.goTo('calcu', 'selectLevel');
-        })
-
-        document.getElementById("buttonPlay2048").addEventListener("click", function(){
-            $scope.goTo('2048', '2048SelectLevel');
-        })
-
-        document.getElementById("buttonPlayClown").addEventListener("click", function(){
-            $scope.goTo('clown', 'clowSelectLevel');
-        })
-
-        document.getElementById("buttonPlayMines").addEventListener("click", function(){
-            $scope.goTo('mines', 'minesSelectLevel');
-        })
+        document.getElementById("cardChess").addEventListener("click", function(){ $scope.goTo('chess', 'chessSelectLevel') })
+        document.getElementById("cardSudoku").addEventListener("click", function(){ $scope.goTo('sudoku', 'sudokuSelectLevel') })
+        document.getElementById("cardCalcu").addEventListener("click", function(){ $scope.goTo('calcu', 'selectLevel') })
+        document.getElementById("card2048").addEventListener("click", function(){ $scope.goTo('2048', '2048SelectLevel') })
+        document.getElementById("cardPuzzle").addEventListener("click", function(){ $scope.goTo('clown', 'clowSelectLevel') })
+        document.getElementById("cardMines").addEventListener("click", function(){ $scope.goTo('mines', 'minesSelectLevel') })
 
         $scope.goTo = function(game, page) {
             document.getElementById("card-icon-" +  game).style.margin = '-280px auto';
