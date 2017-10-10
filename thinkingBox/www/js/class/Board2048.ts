@@ -22,7 +22,7 @@ class Board2048 extends Board {
         for (var i = 0; i < this.level * this.level; i++) {
             auxArray.push(0);
         }
-
+        
         // BORRAR 
         this.inflate(auxArray);
 

@@ -1,8 +1,13 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var Board = (function () {
     function Board(id, size, autoGen) {
         this.onAll = function (event, callback) {
@@ -168,6 +173,7 @@ var Board2048 = (function (_super) {
         for (var i = 0; i < this.level * this.level; i++) {
             auxArray.push(0);
         }
+        console.log(auxArray);
         this.inflate(auxArray);
         var r1 = Helper.ranMinMax(1, this.size[0]);
         var r2 = Helper.ranMinMax(1, this.size[1]);
